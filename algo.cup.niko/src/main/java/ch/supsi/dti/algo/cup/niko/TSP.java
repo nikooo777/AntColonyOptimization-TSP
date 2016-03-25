@@ -77,4 +77,9 @@ public class TSP
 	{
 		return this.dimension;
 	}
+
+	public double computeOptimality(int distance)
+	{
+		return distance / (double) this.bestKnown;
+	}
 }

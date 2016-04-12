@@ -1,30 +1,43 @@
 package ch.supsi.dti.algo.cup.niko;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
-public class Path implements Iterable<Integer>
+public class Path
 {
-	private final LinkedList<Integer> path;
+	private final int[] path;
+	private int index = 0;
+	private final int lengthMax;
+	private int distance;
+	private TSP structure;
 
-	public Path(int lengthMax)
+	public Path(TSP structure)
 	{
-		this.path = new LinkedList<>();
+		this.structure = structure;
+		// +1 due to the tour being closed
+		this.lengthMax = structure.getSize() + 1;
+		this.path = new int[structure.getSize() + 1];
 	}
 
 	public void addNode(int node)
 	{
-		this.path.add(node);
+		this.path[this.index++] = node;
 	}
 
 	public int length()
 	{
-		return this.path.size();
+		return this.lengthMax;
 	}
 
-	@Override
-	public Iterator<Integer> iterator()
+	public void setDistance(int distance)
 	{
-		return this.path.iterator();
+		this.distance = distance;
+	}
+
+	public int getDistance()
+	{
+		return this.distance;
+	}
+
+	public float getPerformance()
+	{
+		return (this.distance - this.structure.getBestKnown()) / this.structure.getBestKnown();
 	}
 }

@@ -82,4 +82,9 @@ public class TSP
 	{
 		return distance / (double) this.bestKnown;
 	}
+
+	public float getBestKnown()
+	{
+		return this.bestKnown;
+	}
 }

@@ -1,20 +1,28 @@
-package ch.supsi.dti.algo.cup.niko;
+package ch.supsi.dti.algo.cup.niko.solvers;
 
-import java.util.HashSet;
 import java.util.Random;
 
-public class NearestFirstAlgorithm
+import ch.supsi.dti.algo.cup.niko.Path;
+import ch.supsi.dti.algo.cup.niko.TSP;
+
+public class NearestFirstAlgorithm implements TSPAlgorithm
 {
-	public static Path reduce(TSP structure, Random random)
+	private int distance = 0;
+
+	@Override
+	public Path reduce(TSP structure, Random random)
 	{
 		int startNode = random.nextInt(structure.getSize());
-		int distance = 0;
 		int nextNode = startNode;
 		int currentNode = -1;
-		Path path = new Path();
+		Path path = new Path(structure);
 
-		HashSet<Integer> visitedNodes = new HashSet<>();
-		visitedNodes.add(startNode);
+		// default init to false
+		boolean[] visited = new boolean[structure.getSize()];
+
+		// HashSet<Integer> visitedNodes = new HashSet<>();
+		// visitedNodes.add(startNode);
+		visited[startNode] = true;
 		path.addNode(startNode);
 
 		// for each remaining node in the structure
@@ -29,7 +37,7 @@ public class NearestFirstAlgorithm
 			// if we visited all nodes then we have to add the last segment and break free
 			if (i == structure.getSize() - 1)
 			{
-				distance += structure.getAbsDistance(currentNode, startNode);
+				this.distance += structure.getAbsDistance(currentNode, startNode);
 				path.addNode(startNode);
 				// System.out.println("from " + currentNode + " to " + 0 + " distance: \t" + structure.getAbsDistance(currentNode, 0) + "\t total distance: " + distance);
 				break;
@@ -38,7 +46,7 @@ public class NearestFirstAlgorithm
 			// go through all the remaining nodes to visit
 			for (int j = 0; j < structure.getSize(); j++)
 			{
-				if (currentNode == j || visitedNodes.contains(j))
+				if (currentNode == j || visited[j])
 				{
 					continue;
 				}
@@ -53,13 +61,15 @@ public class NearestFirstAlgorithm
 			}
 
 			// mark the next node as visited
-			// distance += structure.getAbsDistance(currentNode, nextNode);
+			this.distance += structure.getAbsDistance(currentNode, nextNode);
 			// System.out.println("from " + currentNode + " to " + nextNode + " distance: \t" + structure.getAbsDistance(currentNode, nextNode) + "\t total distance: " + distance);
 			path.addNode(nextNode);
-			visitedNodes.add(nextNode);
+			visited[nextNode] = true;
+			// visitedNodes.add(nextNode);
 			// currentNode = nextNode;
 		}
-		System.out.println("the total distance is: " + distance);
+		// System.out.println("the total distance is: " + distance);
+		path.setDistance(this.distance);
 		return path;
 	}
 }

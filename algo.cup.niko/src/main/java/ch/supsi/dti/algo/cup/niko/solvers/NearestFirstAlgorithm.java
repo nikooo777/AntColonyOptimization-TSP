@@ -38,7 +38,7 @@ public class NearestFirstAlgorithm implements TSPAlgorithm
 			if (i == structure.getSize() - 1)
 			{
 				this.distance += structure.getAbsDistance(currentNode, startNode);
-				path.addNode(startNode);
+				// path.addNode(startNode);
 				// System.out.println("from " + currentNode + " to " + 0 + " distance: \t" + structure.getAbsDistance(currentNode, 0) + "\t total distance: " + distance);
 				break;
 			}

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import ch.supsi.dti.algo.cup.niko.solvers.NearestFirstAlgorithm;
+import ch.supsi.dti.algo.cup.niko.solvers.TwoOpt;
 
 public class CupLauncher
 {
@@ -14,10 +15,10 @@ public class CupLauncher
 		Map<String, TSP> problems = new HashMap<>();
 		problems.put("ch130", TSPParser.parse("ch130.tsp"));
 		problems.put("d198", TSPParser.parse("d198.tsp"));
-		problems.put("eil76.opt", TSPParser.parse("eil76.opt.tsp"));
+		// problems.put("eil76.opt", TSPParser.parse("eil76.opt.tour"));
 		problems.put("eil76", TSPParser.parse("eil76.tsp"));
 		problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
-		problems.put("kroA100.opt", TSPParser.parse("kroA100.opt.tsp"));
+		// problems.put("kroA100.opt", TSPParser.parse("kroA100.opt.tour"));
 		problems.put("kroA100", TSPParser.parse("kroA100.tsp"));
 		problems.put("lin318", TSPParser.parse("lin318.tsp"));
 		problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
@@ -27,15 +28,27 @@ public class CupLauncher
 
 		long seed = System.currentTimeMillis();
 		Random random = new Random(seed);
-		int i = 0;
-		while (i < 15)
+		// int i = 0;
+		// double sum = 0;
+		long overallstarttime = System.currentTimeMillis();
+		// while (i < 100)
+		// {
+		for (String s : problems.keySet())
 		{
-			long startTime = System.currentTimeMillis();
-			Path path = new NearestFirstAlgorithm().reduce(problems.get("ch130"), random);
-			System.out.println("Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getDistance() + ". Performance: " + path.getPerformance() * 100 + "%");
 
-			// tuo-suo/suo
-			i++;
+			long startTime = System.currentTimeMillis();
+			Path path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
+			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getDistance() + ". Performance: " + path.getPerformance() * 100 + "% validation: " + path.validate());
+
+			startTime = System.currentTimeMillis();
+			Path improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
+			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getDistance() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
 		}
+		// i++;
+		// sum += improvedPath.getPerformance();
+		// }
+		System.out.println("Overall Runtime: " + (System.currentTimeMillis() - overallstarttime) / 1000. + "s");
+		// System.out.println("Media: " + sum * 1);
+
 	}
 }

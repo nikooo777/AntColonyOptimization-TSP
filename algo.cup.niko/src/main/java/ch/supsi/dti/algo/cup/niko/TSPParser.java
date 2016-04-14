@@ -16,7 +16,7 @@ public class TSPParser
 {
 	public static TSP parse(String algorithm)
 	{
-		String fileName = "problems/ch130.tsp";
+		String fileName = "problems/" + algorithm;
 		List<String> list = new ArrayList<>();
 		double[][] matrix;
 		int index;

@@ -12,20 +12,16 @@ import java.util.stream.Stream;
  * @author Niko
  *
  */
-public class TSPParser
-{
-	public static TSP parse(String algorithm)
-	{
-		String fileName = "problems/" + algorithm;
+public class TSPParser {
+	public static TSP parse(final String algorithm) {
+		final String fileName = "problems/" + algorithm;
 		List<String> list = new ArrayList<>();
 		double[][] matrix;
 		int index;
 		boolean found;
-		int distance = 0;
-		try (Stream<String> stream = Files.lines(Paths.get(fileName)))
-		{
+		try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
 			list = stream.collect(Collectors.toList());
-			int length = list.size();
+			final int length = list.size();
 			matrix = new double[length][2];
 			found = false;
 			index = 0;
@@ -35,24 +31,20 @@ public class TSPParser
 			int dimension = -1;
 			int bestKnown = -1;
 
-			for (String line : list)
-			{
-				if (!found)
-				{
+			for (final String line : list) {
+				if (!found) {
 					// metadata
 					///////////////////////////////////////////////////////////
-					if (line.startsWith("NAME"))
-					{
+					if (line.startsWith("NAME")) {
 						name = line.split(":")[1].trim();
 
-					} else if (line.startsWith("COMMENT"))
-					{
+					}
+					else if (line.startsWith("COMMENT")) {
 						comment = line.split(":")[1].trim();
-					} else if (line.startsWith("TYPE"))
-					{
-						String sType = line.split(":")[1].trim();
-						switch (sType)
-						{
+					}
+					else if (line.startsWith("TYPE")) {
+						final String sType = line.split(":")[1].trim();
+						switch (sType) {
 						case "TSP":
 							type = TSP.Type.TSP;
 						case "TOUR":
@@ -62,11 +54,11 @@ public class TSPParser
 							type = null;
 							break;
 						}
-					} else if (line.startsWith("DIMENSION"))
-					{
+					}
+					else if (line.startsWith("DIMENSION")) {
 						dimension = Integer.parseInt(line.split(":")[1].trim());
-					} else if (line.startsWith("BEST_KNOWN"))
-					{
+					}
+					else if (line.startsWith("BEST_KNOWN")) {
 						bestKnown = Integer.parseInt(line.split(":")[1].trim());
 					}
 					///////////////////////////////////////////////////////////
@@ -76,7 +68,7 @@ public class TSPParser
 				}
 				if (line.equals("EOF"))
 					break;
-				String[] bundle = line.split(" ", 3);
+				final String[] bundle = line.split(" ", 3);
 				// System.out.println(Arrays.toString(bundle));
 				matrix[index][0] = Double.parseDouble(bundle[1]);
 				matrix[index][1] = Double.parseDouble(bundle[2]);
@@ -85,8 +77,7 @@ public class TSPParser
 
 			return new TSP(name, comment, type, dimension, bestKnown, matrix);
 
-		} catch (IOException e)
-		{
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 		return null;

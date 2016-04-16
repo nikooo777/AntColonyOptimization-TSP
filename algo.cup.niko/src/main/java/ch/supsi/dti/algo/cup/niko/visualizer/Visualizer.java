@@ -6,104 +6,113 @@
 
 package ch.supsi.dti.algo.cup.niko.visualizer;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
+import ch.supsi.dti.algo.cup.niko.Path;
 import ch.supsi.dti.algo.cup.niko.TSP;
+import ch.supsi.dti.algo.cup.niko.TSPParser;
+import ch.supsi.dti.algo.cup.niko.solvers.NearestFirstAlgorithm;
 import ch.supsi.dti.algo.cup.niko.solvers.TwoOpt;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class Visualizer extends Application
-{
-	private static String toursHomePath = "tours/";
-	private static String[] allTours = { "eil76.tsp", "kroA100.tsp", "ch130.tsp", "d198.tsp", "lin318.tsp", "pcb442.tsp", "pr439.tsp", "rat783.tsp", "u1060.tsp", "fl1577.tsp" };
-	private static TSP problem = null;
+public class Visualizer extends Application {
 
-	public static void main(String[] args)
-	{
+	public static void main(final String[] args) {
 
-		problem = FileParser.readData(toursHomePath + allTours[2]);
-		problem.computeDistances();
-
-		NearestNeighbour.computeAlgorithm(problem, 0);
-		// DoubleNearestNeighbour.computeAlgorithm(problem, 0);
-
-		TwoOpt.computeAlgorithm(problem, false);
-		// TriOpt.computeAlgorithm(problem, false);
-
-		System.out.println("---------------DONE---------------");
-		System.out.println(problem.getName());
-		System.out.println(problem.getMyPathLength());
-		System.out.println(problem.calcError());
-
-		/*
-		 * for (int i = 0; i < problem.getMySolution().length; i++) {
-		 * if(i % 10 == 0) {
-		 * System.out.println();
-		 * }
-		 * System.out.print(problem.getMySolution()[i]+1 + " -> ");
-		 * }
-		 */
-		// GRAPHIC RAPPRESENTATION
 		launch(args);
 
 	}
 
 	// ALL CODE FROM NOW IS JUST FOR A GRAPHIC RAPPRESENTATION
 	@Override
-	public void start(Stage primaryStage) throws Exception
-	{
-		primaryStage.setTitle("TSP");
-		Group root = new Group();
-		Canvas canvas = new Canvas(800, 800);
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-		drawTSP(gc);
-		root.getChildren().add(canvas);
-		primaryStage.setScene(new Scene(root));
-		primaryStage.show();
+	public void start(final Stage primaryStage) throws Exception {
+		final long overallstarttime = System.currentTimeMillis();
+		final Map<String, TSP> problems = new HashMap<>();
+		final Map<String, Path> solutions = new HashMap<>();
+		problems.put("ch130", TSPParser.parse("ch130.tsp"));
+		problems.put("d198", TSPParser.parse("d198.tsp"));
+		problems.put("eil76", TSPParser.parse("eil76.tsp"));
+		problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
+		problems.put("kroA100", TSPParser.parse("kroA100.tsp"));
+		problems.put("lin318", TSPParser.parse("lin318.tsp"));
+		problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
+		problems.put("pr439", TSPParser.parse("pr439.tsp"));
+		problems.put("rat783", TSPParser.parse("rat783.tsp"));
+		problems.put("u1060", TSPParser.parse("u1060.tsp"));
 
+		final long seed = System.currentTimeMillis();
+		final Random random = new Random(seed);
+		for (final String s : problems.keySet()) {
+
+			long startTime = System.currentTimeMillis();
+			final Path path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
+			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getDistance() + ". Performance: " + path.getPerformance() * 100 + "% validation: " + path.validate());
+
+			startTime = System.currentTimeMillis();
+			final Path improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
+			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getDistance() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: "
+					+ improvedPath.validate());
+			solutions.put(s, improvedPath);
+		}
+		System.out.println("Overall Runtime: " + (System.currentTimeMillis() - overallstarttime) / 1000. + "s");
+
+		displaySolutions(primaryStage, problems, solutions);
 	}
 
-	private void drawTSP(GraphicsContext gc)
-	{
+	private void displaySolutions(final Stage primaryStage, final Map<String, TSP> problems, final Map<String, Path> solutions) {
+		final TabPane tabPane = new TabPane();
+		for (final String s : solutions.keySet()) {
+			final Tab tab = new Tab(s);
+			primaryStage.setTitle(s);
+			final Group root = new Group();
+			final Canvas canvas = new Canvas(800, 800);
+			final GraphicsContext gc = canvas.getGraphicsContext2D();
+			drawTSP(gc, problems.get(s), solutions.get(s));
+			root.getChildren().add(canvas);
+			root.setStyle("-fx-padding: 20 20 20 20;");
+			tab.setContent(root);
+			tabPane.getTabs().add(tab);
+		}
+		primaryStage.setScene(new Scene(tabPane));
+		primaryStage.show();
+	}
 
-		List<City> cities = problem.getListOfCities();
+	private void drawTSP(final GraphicsContext gc, final TSP problem, final Path solution) {
+
 		double farthestCoord = 0.0;
 
-		for (City c : cities)
-		{
-			if (c.getX() > farthestCoord)
-			{
-				farthestCoord = c.getX();
-			} else if (c.getY() > farthestCoord)
-			{
-				farthestCoord = c.getY();
-			}
+		for (int i = 0; i < problem.getSize(); i++) {
+			if (problem.getX(i) > farthestCoord)
+				farthestCoord = problem.getX(i);
+			if (problem.getY(i) > farthestCoord)
+				farthestCoord = problem.getY(i);
 		}
 
-		double zoom = 750 / farthestCoord;
+		final double zoom = 750 / farthestCoord;
 
-		for (int i = 0; i < cities.size(); i++)
-		{
+		for (int i = 0; i < problem.getSize(); i++) {
 			gc.setStroke(Color.BLACK);
-			gc.fillOval(cities.get(i).getX() * zoom, cities.get(i).getY() * zoom, 5, 5);
+			gc.fillOval(problem.getX(i) * zoom, problem.getY(i) * zoom, 5, 5);
 			gc.setStroke(Color.RED);
-			gc.strokeText(new Integer(i + 1).toString(), (cities.get(i).getX() - 0.5) * zoom, (cities.get(i).getY() - 0.5) * zoom);
+			gc.strokeText(new Integer(i + 1).toString(), (problem.getX(i) - 0.5) * zoom, (problem.getY(i) - 0.5) * zoom);
 		}
 
 		gc.setStroke(Color.BLUE);
-		int[] test = problem.getMySolution();
+		final int[] test = solution.getSolution();
 		gc.setLineWidth(1);
-		for (int i = 0; i < test.length - 1; i++)
-		{
-			gc.strokeLine((cities.get(test[i]).getX() + 0.4) * zoom, (cities.get(test[i]).getY() + 0.4) * zoom, (cities.get(test[i + 1]).getX() + 0.4) * zoom, (cities.get(test[i + 1]).getY() + 0.4) * zoom);
+		for (int i = 0; i < test.length - 1; i++) {
+			gc.strokeLine((problem.getX(test[i]) + 0.4) * zoom, (problem.getY(test[i]) + 0.4) * zoom, (problem.getX(test[i + 1]) + 0.4) * zoom, (problem.getY(test[i + 1]) + 0.4) * zoom);
 		}
-		gc.strokeLine((cities.get(test[test.length - 1]).getX() + 0.4) * zoom, (cities.get(test[test.length - 1]).getY() + 0.4) * zoom, (cities.get(test[0]).getX() + 0.4) * zoom, (cities.get(test[0]).getY() + 0.4) * zoom);
+		gc.strokeLine((problem.getX(test[test.length - 1]) + 0.4) * zoom, (problem.getY(test[test.length - 1]) + 0.4) * zoom, (problem.getX(test[0]) + 0.4) * zoom, (problem.getY(test[0]) + 0.4) * zoom);
 	}
-
 }

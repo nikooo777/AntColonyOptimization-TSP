@@ -1,6 +1,8 @@
 /*
- * http://www.oracle.com/technetwork/articles/java/architect-streams-pt2-2227132.html
- * http://stackoverflow.com/questions/5533191/java-random-always-returns-the-same-number-when-i-set-the-seed
+ * http://www.oracle.com/technetwork/articles/java/architect-streams-pt2-2227132
+ * .html
+ * http://stackoverflow.com/questions/5533191/java-random-always-returns-the-
+ * same-number-when-i-set-the-seed
  * http://stackoverflow.com/questions/12458383/java-random-numbers-using-a-seed
  */
 
@@ -60,9 +62,8 @@ public class Visualizer extends Application {
 
 			startTime = System.currentTimeMillis();
 			final Path improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
-			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getDistance() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: "
-					+ improvedPath.validate());
-			solutions.put(s, improvedPath);
+			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getDistance() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
+			solutions.put(s, path);
 		}
 		System.out.println("Overall Runtime: " + (System.currentTimeMillis() - overallstarttime) / 1000. + "s");
 
@@ -104,7 +105,7 @@ public class Visualizer extends Application {
 			gc.setStroke(Color.BLACK);
 			gc.fillOval(problem.getX(i) * zoom, problem.getY(i) * zoom, 5, 5);
 			gc.setStroke(Color.RED);
-			gc.strokeText(new Integer(i + 1).toString(), (problem.getX(i) - 0.5) * zoom, (problem.getY(i) - 0.5) * zoom);
+			gc.strokeText(new Integer(i).toString(), (problem.getX(i) - 0.5) * zoom, (problem.getY(i) - 0.5) * zoom);
 		}
 
 		gc.setStroke(Color.BLUE);

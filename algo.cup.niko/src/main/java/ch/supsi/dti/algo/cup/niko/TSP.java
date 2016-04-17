@@ -52,6 +52,11 @@ public class TSP {
 			return Integer.compare(this.distance, o.distance);
 		}
 
+		@Override
+		public String toString() {
+			return "city: " + city + " distance: " + distance;
+		}
+
 	}
 
 	private void buildCandidateLists() {
@@ -64,13 +69,14 @@ public class TSP {
 				sortedList.add(new CityDistance(j, this.distanceMatrix[i][j]));
 			}
 			Collections.sort(sortedList);
-			for (int j = 0; j < 15; j++) {
+			for (int j = 0; j < CANDIDATES_SIZE; j++) {
 				this.candidates[i][j] = sortedList.get(j).city;
 			}
 		}
 	}
 
 	public int[] getCandidates(final int node) {
+		// System.out.println("Candidates for node " + node + ": " + Arrays.toString(candidates[node]));
 		return this.candidates[node];
 	}
 
@@ -89,7 +95,8 @@ public class TSP {
 	/**
 	 * Returns the distance between two nodes in absolute values
 	 * Be careful in using indexes starting from 0.
-	 * For performance reasons bounds aren't checked so submitting invalid values will result in
+	 * For performance reasons bounds aren't checked so submitting invalid
+	 * values will result in
 	 * an index out of bounds exception.
 	 *
 	 * @param nodeIndexFrom

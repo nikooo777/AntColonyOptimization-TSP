@@ -2,17 +2,17 @@ package ch.supsi.dti.algo.cup.niko.solvers;
 
 import java.util.Random;
 
-import ch.supsi.dti.algo.cup.niko.Path;
+import ch.supsi.dti.algo.cup.niko.Tour;
 import ch.supsi.dti.algo.cup.niko.TSP;
 
 public class NearestFirstAlgorithm implements TSPAlgorithm {
 
 	@Override
-	public Path reduce(final TSP structure, final Random random) {
+	public Tour reduce(final TSP structure, final Random random) {
 		final int startNode = 0;// random.nextInt(structure.getSize());
 		int nextNode = startNode;
 		int currentNode = -1;
-		final Path path = new Path(structure);
+		final Tour path = new Tour(structure);
 
 		// default init to false
 		final boolean[] visited = new boolean[structure.getSize()];

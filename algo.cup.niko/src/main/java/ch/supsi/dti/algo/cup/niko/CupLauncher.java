@@ -28,12 +28,12 @@ public class CupLauncher {
 		for (final String s : problems.keySet()) {
 
 			long startTime = System.currentTimeMillis();
-			final Path path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
-			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getDistance() + ". Performance: " + path.getPerformance() * 100 + "% validation: " + path.validate());
+			final Tour path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
+			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getTourLength() + ". Performance: " + path.getPerformance() * 100 + "% validation: " + path.validate());
 
 			startTime = System.currentTimeMillis();
-			final Path improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
-			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getDistance() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: "
+			final Tour improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
+			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getTourLength() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: "
 					+ improvedPath.validate());
 		}
 		System.out.println("Overall Runtime: " + (System.currentTimeMillis() - overallstarttime) / 1000. + "s");

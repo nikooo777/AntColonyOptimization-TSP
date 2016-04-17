@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import ch.supsi.dti.algo.cup.niko.Path;
+import ch.supsi.dti.algo.cup.niko.Tour;
 import ch.supsi.dti.algo.cup.niko.TSP;
 import ch.supsi.dti.algo.cup.niko.TSPParser;
 import ch.supsi.dti.algo.cup.niko.solvers.NearestFirstAlgorithm;
@@ -43,7 +43,7 @@ public class Visualizer extends Application
 	{
 		final long overallstarttime = System.currentTimeMillis();
 		final Map<String, TSP> problems = new HashMap<>();
-		final Map<String, Path> solutions = new HashMap<>();
+		final Map<String, Tour> solutions = new HashMap<>();
 		problems.put("ch130", TSPParser.parse("ch130.tsp"));
 		problems.put("d198", TSPParser.parse("d198.tsp"));
 		problems.put("eil76", TSPParser.parse("eil76.tsp"));
@@ -61,12 +61,12 @@ public class Visualizer extends Application
 		{
 
 			long startTime = System.currentTimeMillis();
-			final Path path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
-			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getDistance() + ". Performance: " + path.getPerformance() * 100 + "% validation: " + path.validate());
+			final Tour path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
+			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getTourLength() + ". Performance: " + path.getPerformance() * 100 + "% validation: " + path.validate());
 			solutions.put(s + "_nn", path);
 			startTime = System.currentTimeMillis();
-			final Path improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
-			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getDistance() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
+			final Tour improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
+			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getTourLength() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
 			solutions.put(s, improvedPath);
 		}
 		System.out.println("Overall Runtime: " + (System.currentTimeMillis() - overallstarttime) / 1000. + "s");
@@ -74,7 +74,7 @@ public class Visualizer extends Application
 		displaySolutions(primaryStage, problems, solutions);
 	}
 
-	private void displaySolutions(final Stage primaryStage, final Map<String, TSP> problems, final Map<String, Path> solutions)
+	private void displaySolutions(final Stage primaryStage, final Map<String, TSP> problems, final Map<String, Tour> solutions)
 	{
 		final TabPane tabPane = new TabPane();
 		for (final String s : solutions.keySet())
@@ -95,7 +95,7 @@ public class Visualizer extends Application
 		primaryStage.show();
 	}
 
-	private void drawTSP(final GraphicsContext gc, final TSP problem, final Path solution)
+	private void drawTSP(final GraphicsContext gc, final TSP problem, final Tour solution)
 	{
 
 		double farthestCoord = 0.0;

@@ -27,9 +27,11 @@ import javafx.scene.control.TabPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class Visualizer extends Application {
+public class Visualizer extends Application
+{
 
-	public static void main(final String[] args) {
+	public static void main(final String[] args)
+	{
 
 		launch(args);
 
@@ -37,7 +39,8 @@ public class Visualizer extends Application {
 
 	// ALL CODE FROM NOW IS JUST FOR A GRAPHIC RAPPRESENTATION
 	@Override
-	public void start(final Stage primaryStage) throws Exception {
+	public void start(final Stage primaryStage) throws Exception
+	{
 		final long overallstarttime = System.currentTimeMillis();
 		final Map<String, TSP> problems = new HashMap<>();
 		final Map<String, Path> solutions = new HashMap<>();
@@ -54,31 +57,35 @@ public class Visualizer extends Application {
 
 		final long seed = System.currentTimeMillis();
 		final Random random = new Random(seed);
-		for (final String s : problems.keySet()) {
+		for (final String s : problems.keySet())
+		{
 
 			long startTime = System.currentTimeMillis();
 			final Path path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
 			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getDistance() + ". Performance: " + path.getPerformance() * 100 + "% validation: " + path.validate());
-
+			solutions.put(s + "_nn", path);
 			startTime = System.currentTimeMillis();
 			final Path improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
 			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getDistance() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
-			solutions.put(s, path);
+			solutions.put(s, improvedPath);
 		}
 		System.out.println("Overall Runtime: " + (System.currentTimeMillis() - overallstarttime) / 1000. + "s");
 
 		displaySolutions(primaryStage, problems, solutions);
 	}
 
-	private void displaySolutions(final Stage primaryStage, final Map<String, TSP> problems, final Map<String, Path> solutions) {
+	private void displaySolutions(final Stage primaryStage, final Map<String, TSP> problems, final Map<String, Path> solutions)
+	{
 		final TabPane tabPane = new TabPane();
-		for (final String s : solutions.keySet()) {
+		for (final String s : solutions.keySet())
+		{
+
 			final Tab tab = new Tab(s);
 			primaryStage.setTitle(s);
 			final Group root = new Group();
 			final Canvas canvas = new Canvas(800, 800);
 			final GraphicsContext gc = canvas.getGraphicsContext2D();
-			drawTSP(gc, problems.get(s), solutions.get(s));
+			drawTSP(gc, problems.get(s.replace("_nn", "")), solutions.get(s));
 			root.getChildren().add(canvas);
 			root.setStyle("-fx-padding: 20 20 20 20;");
 			tab.setContent(root);
@@ -88,11 +95,13 @@ public class Visualizer extends Application {
 		primaryStage.show();
 	}
 
-	private void drawTSP(final GraphicsContext gc, final TSP problem, final Path solution) {
+	private void drawTSP(final GraphicsContext gc, final TSP problem, final Path solution)
+	{
 
 		double farthestCoord = 0.0;
 
-		for (int i = 0; i < problem.getSize(); i++) {
+		for (int i = 0; i < problem.getSize(); i++)
+		{
 			if (problem.getX(i) > farthestCoord)
 				farthestCoord = problem.getX(i);
 			if (problem.getY(i) > farthestCoord)
@@ -101,7 +110,8 @@ public class Visualizer extends Application {
 
 		final double zoom = 750 / farthestCoord;
 
-		for (int i = 0; i < problem.getSize(); i++) {
+		for (int i = 0; i < problem.getSize(); i++)
+		{
 			gc.setStroke(Color.BLACK);
 			gc.fillOval(problem.getX(i) * zoom, problem.getY(i) * zoom, 5, 5);
 			gc.setStroke(Color.RED);
@@ -111,7 +121,8 @@ public class Visualizer extends Application {
 		gc.setStroke(Color.BLUE);
 		final int[] test = solution.getSolution();
 		gc.setLineWidth(1);
-		for (int i = 0; i < test.length - 1; i++) {
+		for (int i = 0; i < test.length - 1; i++)
+		{
 			gc.strokeLine((problem.getX(test[i]) + 0.4) * zoom, (problem.getY(test[i]) + 0.4) * zoom, (problem.getX(test[i + 1]) + 0.4) * zoom, (problem.getY(test[i + 1]) + 0.4) * zoom);
 		}
 		gc.strokeLine((problem.getX(test[test.length - 1]) + 0.4) * zoom, (problem.getY(test[test.length - 1]) + 0.4) * zoom, (problem.getX(test[0]) + 0.4) * zoom, (problem.getY(test[0]) + 0.4) * zoom);

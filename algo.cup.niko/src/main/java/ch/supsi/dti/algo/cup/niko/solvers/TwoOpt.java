@@ -19,17 +19,18 @@ public class TwoOpt implements TSPAlgorithm
 	public Tour reduce(TSP structure, Random random)
 	{
 		this.structure = structure;
-
-		int improve = 0;
 		boolean first_improvement = true;
-		while (improve < 20)
+		int best_gain = -1;
+		int best_i, best_j;
+		boolean usedCandidates;
+		while (best_gain < 0)
 		{
-			int best_i = -1;
-			int best_j = -1;
-			int best_gain = 0;
+			best_i = -1;
+			best_j = -1;
+			best_gain = 0;
 			for (int i = 0; i < this.tour.tourSize() - 2; i++)
 			{
-				boolean usedCandidates = false;
+				usedCandidates = false;
 
 				// go through the candidates of node i
 				for (int j = 0; j < TSP.CANDIDATES_SIZE; j++)
@@ -39,6 +40,7 @@ public class TwoOpt implements TSPAlgorithm
 					candidate = this.tour.getIndexOfNode(candidate);
 					if (candidate == i)
 						continue;
+
 					int gain = computeGain(i, candidate);
 					if (gain < best_gain)
 					{
@@ -46,9 +48,8 @@ public class TwoOpt implements TSPAlgorithm
 						best_gain = gain;
 						best_i = i;
 						best_j = candidate;
-						improve = 0;
 						usedCandidates = true;
-						first_improvement = true;
+						// first_improvement = true;
 						// break;
 					}
 				}
@@ -60,42 +61,36 @@ public class TwoOpt implements TSPAlgorithm
 						int gain = computeGain(i, j);
 						if (gain < best_gain)
 						{
-							// System.out.println("gain: " + gain);
 							best_gain = gain;
 							best_i = i;
 							best_j = j;
-							improve = 0;
 							if (first_improvement)
 							{
+								first_improvement = false;
 								break;
 							}
 						}
 					}
 				}
-
-				if (best_gain < 0 && first_improvement)
-				// if (best_gain < 0)
+				if (best_gain < 0 && (usedCandidates || first_improvement))
 				{
-					first_improvement = false;
 					break;
 				}
 			}
 			if (best_gain < 0)
 			{
-
-				this.tour = swap(Math.min(best_i, best_j), Math.max(best_i, best_j));
+				this.tour = swap(best_i, best_j);
 			}
-			improve++;
 		}
 		return this.tour;
 	}
 
 	private int computeGain(int i, int j)
 	{
-		int a = this.tour.getNode(i);
-		int b = this.tour.getNode((i + 1) % this.tour.tourSize());
-		int c = this.tour.getNode(j);
-		int d = this.tour.getNode((j + 1) % this.tour.tourSize());
+		final int a = this.tour.getNode(i);
+		final int b = this.tour.getNode((i + 1) % this.tour.tourSize());
+		final int c = this.tour.getNode(j);
+		final int d = this.tour.getNode((j + 1) % this.tour.tourSize());
 		return this.structure.getAbsDistance(a, c) + this.structure.getAbsDistance(b, d) - this.structure.getAbsDistance(c, d) - this.structure.getAbsDistance(a, b);
 	}
 

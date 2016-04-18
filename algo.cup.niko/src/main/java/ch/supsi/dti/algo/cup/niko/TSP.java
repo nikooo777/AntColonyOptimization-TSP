@@ -9,10 +9,12 @@ import java.util.Collections;
  * @author Niko
  *
  */
-public class TSP {
-	public static final int CANDIDATES_SIZE = 15;
+public class TSP
+{
+	public static final int CANDIDATES_SIZE = 50;
 
-	public enum Type {
+	public enum Type
+	{
 		TSP, TOUR
 	}
 
@@ -25,7 +27,8 @@ public class TSP {
 	private final String comment;
 	private final int[][] candidates;
 
-	public TSP(final String name, final String comment, final Type type, final int dimension, final int bestKnown, final double[][] matrix) {
+	public TSP(final String name, final String comment, final Type type, final int dimension, final int bestKnown, final double[][] matrix)
+	{
 		this.name = name;
 		this.comment = comment;
 		this.type = type;
@@ -38,44 +41,53 @@ public class TSP {
 		buildCandidateLists();
 	}
 
-	class CityDistance implements Comparable<CityDistance> {
+	class CityDistance implements Comparable<CityDistance>
+	{
 		private final int city;
 		private final int distance;
 
-		public CityDistance(final int city, final int distance) {
+		public CityDistance(final int city, final int distance)
+		{
 			this.city = city;
 			this.distance = distance;
 		}
 
 		@Override
-		public int compareTo(final CityDistance o) {
+		public int compareTo(final CityDistance o)
+		{
 			return Integer.compare(this.distance, o.distance);
 		}
 
 		@Override
-		public String toString() {
-			return "city: " + city + " distance: " + distance;
+		public String toString()
+		{
+			return "city: " + this.city + " distance: " + this.distance;
 		}
 
 	}
 
-	private void buildCandidateLists() {
+	private void buildCandidateLists()
+	{
 
-		for (int i = 0; i < this.dimension; i++) {
+		for (int i = 0; i < this.dimension; i++)
+		{
 			final ArrayList<CityDistance> sortedList = new ArrayList<>();
-			for (int j = 0; j < this.dimension; j++) {
+			for (int j = 0; j < this.dimension; j++)
+			{
 				if (i == j)
 					continue;
 				sortedList.add(new CityDistance(j, this.distanceMatrix[i][j]));
 			}
 			Collections.sort(sortedList);
-			for (int j = 0; j < CANDIDATES_SIZE; j++) {
+			for (int j = 0; j < CANDIDATES_SIZE; j++)
+			{
 				this.candidates[i][j] = sortedList.get(j).city;
 			}
 		}
 	}
 
-	public int[] getCandidates(final int node) {
+	public int[] getCandidates(final int node)
+	{
 		// System.out.println("Candidates for node " + node + ": " + Arrays.toString(candidates[node]));
 		return this.candidates[node];
 	}
@@ -84,9 +96,12 @@ public class TSP {
 	 * Computes the distance between nodes.
 	 * Rounds the result to the nearest integer
 	 */
-	private void computeDistances() {
-		for (int i = 0; i < this.dimension; i++) {
-			for (int j = 0; j < this.dimension; j++) {
+	private void computeDistances()
+	{
+		for (int i = 0; i < this.dimension; i++)
+		{
+			for (int j = 0; j < this.dimension; j++)
+			{
 				this.distanceMatrix[i][j] = (int) Math.round(Math.sqrt(Math.pow(this.matrix[i][0] - this.matrix[j][0], 2) + Math.pow(this.matrix[i][1] - this.matrix[j][1], 2)));
 			}
 		}
@@ -103,35 +118,48 @@ public class TSP {
 	 * @param nodeIndexTo
 	 * @return distance
 	 */
-	public int getAbsDistance(final int nodeIndexFrom, final int nodeIndexTo) {
+	public int getAbsDistance(final int nodeIndexFrom, final int nodeIndexTo)
+	{
 		return this.distanceMatrix[nodeIndexFrom][nodeIndexTo];
 	}
 
-	public int[][] getDistanceMatrix() {
+	public int[][] getDistanceMatrix()
+	{
 		return this.distanceMatrix;
 	}
 
-	public double[][] getMatrix() {
+	public double[][] getMatrix()
+	{
 		return this.matrix;
 	}
 
-	public int getSize() {
+	public int getSize()
+	{
 		return this.dimension;
 	}
 
-	public double computeOptimality(final int distance) {
+	public double computeOptimality(final int distance)
+	{
 		return distance / (double) this.bestKnown;
 	}
 
-	public float getBestKnown() {
+	public float getBestKnown()
+	{
 		return this.bestKnown;
 	}
 
-	public double getY(final int i) {
+	public double getY(final int i)
+	{
 		return this.matrix[i][1];
 	}
 
-	public double getX(final int i) {
+	public double getX(final int i)
+	{
 		return this.matrix[i][0];
+	}
+
+	public String getName()
+	{
+		return this.name;
 	}
 }

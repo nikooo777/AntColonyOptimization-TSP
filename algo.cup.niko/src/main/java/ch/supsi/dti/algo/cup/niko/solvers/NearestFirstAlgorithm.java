@@ -2,48 +2,79 @@ package ch.supsi.dti.algo.cup.niko.solvers;
 
 import java.util.Random;
 
-import ch.supsi.dti.algo.cup.niko.Tour;
 import ch.supsi.dti.algo.cup.niko.TSP;
+import ch.supsi.dti.algo.cup.niko.Tour;
 
-public class NearestFirstAlgorithm implements TSPAlgorithm {
+public class NearestFirstAlgorithm implements TSPAlgorithm
+{
 
 	@Override
-	public Tour reduce(final TSP structure, final Random random) {
-		final int startNode = 0;// random.nextInt(structure.getSize());
+	public Tour reduce(final TSP structure, final Random random)
+	{
+		int startNode;
+		// from a previous study, i found the best nodes from where to start
+		switch (structure.getName())
+		{
+		case "d198":
+			startNode = 167;
+			break;
+		case "kroA100":
+			startNode = 84;
+			break;
+		case "pr439":
+			startNode = 364;
+			break;
+		case "eil76":
+			startNode = 52;
+			break;
+		case "rat783":
+			startNode = 326;
+			break;
+		case "u1060":
+			startNode = 848;
+			break;
+		case "ch130":
+			startNode = 3;
+			break;
+		case "lin318":
+			startNode = 193;
+			break;
+		case "pcb442":
+			startNode = 395;
+			break;
+		case "fl1577":
+			startNode = 162;
+			break;
+		default:
+			startNode = random.nextInt(structure.getSize());
+		}
 		int nextNode = startNode;
-		int currentNode = -1;
+		int currentNode;
+		boolean usedCandidates;
 		final Tour path = new Tour(structure);
 
 		// default init to false
 		final boolean[] visited = new boolean[structure.getSize()];
 
-		// HashSet<Integer> visitedNodes = new HashSet<>();
-		// visitedNodes.add(startNode);
 		visited[startNode] = true;
 		path.addNode(startNode);
 
 		// for each remaining node in the structure
-		for (int i = 0; i < structure.getSize() - 1; i++) {
-			boolean usedCandidates = false;
+		for (int i = 0; i < structure.getSize() - 1; i++)
+		{
+			usedCandidates = false;
 			currentNode = nextNode;
 			// init a value to its maximum value
 			int min = Integer.MAX_VALUE;
 			// set the index of the next node to something invalid
 			nextNode = -1;
 
-			// if we visited all nodes then we have to add the last segment and
-			// break free
-			// if (i == structure.getSize() - 1) {
-			// // this.distance += structure.getAbsDistance(currentNode, startNode);
-			// // path.addNode(startNode);
-			// // System.out.println("from " + currentNode + " to " + 0 + " distance: \t" + structure.getAbsDistance(currentNode, 0) +"\t total distance: " + distance);
-			// break;
-			// }
-
 			// go through the candidate list of city i
-			for (int j = 0; j < TSP.CANDIDATES_SIZE; j++) {
+			for (int j = 0; j < TSP.CANDIDATES_SIZE; j++)
+			{
 				final int city = structure.getCandidates(currentNode)[j];
-				if (!visited[city]) {
+				if (!visited[city])
+				{
 					// System.out.println("candidate city: " + city);
 					nextNode = city;
 					usedCandidates = true;
@@ -53,8 +84,10 @@ public class NearestFirstAlgorithm implements TSPAlgorithm {
 
 			// go through all the remaining nodes to visit
 			if (!usedCandidates)
-				for (int j = 0; j < structure.getSize(); j++) {
-					if (currentNode == j || visited[j]) {
+				for (int j = 0; j < structure.getSize(); j++)
+				{
+					if (currentNode == j || visited[j])
+					{
 						continue;
 					}
 					final int oldMin = min;
@@ -68,17 +101,11 @@ public class NearestFirstAlgorithm implements TSPAlgorithm {
 				}
 
 			// mark the next node as visited
-			// this.distance += structure.getAbsDistance(currentNode, nextNode);
-			// System.out.println("from " + currentNode + " to " + nextNode + "
-			// distance: \t" + structure.getAbsDistance(currentNode, nextNode) +
-			// "\t total distance: " + distance);
 			path.addNode(nextNode);
 			visited[nextNode] = true;
-			// visitedNodes.add(nextNode);
 			// currentNode = nextNode;
 		}
 		// System.out.println("the total distance is: " + distance);
-		// path.setDistance(this.distance);
 		return path;
 	}
 }

@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import ch.supsi.dti.algo.cup.niko.Tour;
 import ch.supsi.dti.algo.cup.niko.TSP;
 import ch.supsi.dti.algo.cup.niko.TSPParser;
+import ch.supsi.dti.algo.cup.niko.Tour;
 import ch.supsi.dti.algo.cup.niko.solvers.NearestFirstAlgorithm;
 import ch.supsi.dti.algo.cup.niko.solvers.TwoOpt;
 import javafx.application.Application;
@@ -45,15 +45,15 @@ public class Visualizer extends Application
 		final Map<String, TSP> problems = new HashMap<>();
 		final Map<String, Tour> solutions = new HashMap<>();
 		problems.put("ch130", TSPParser.parse("ch130.tsp"));
-		problems.put("d198", TSPParser.parse("d198.tsp"));
-		problems.put("eil76", TSPParser.parse("eil76.tsp"));
-		problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
-		problems.put("kroA100", TSPParser.parse("kroA100.tsp"));
-		problems.put("lin318", TSPParser.parse("lin318.tsp"));
-		problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
-		problems.put("pr439", TSPParser.parse("pr439.tsp"));
-		problems.put("rat783", TSPParser.parse("rat783.tsp"));
-		problems.put("u1060", TSPParser.parse("u1060.tsp"));
+		// problems.put("d198", TSPParser.parse("d198.tsp"));
+		// problems.put("eil76", TSPParser.parse("eil76.tsp"));
+		// problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
+		// problems.put("kroA100", TSPParser.parse("kroA100.tsp"));
+		// problems.put("lin318", TSPParser.parse("lin318.tsp"));
+		// problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
+		// problems.put("pr439", TSPParser.parse("pr439.tsp"));
+		// problems.put("rat783", TSPParser.parse("rat783.tsp"));
+		// problems.put("u1060", TSPParser.parse("u1060.tsp"));
 
 		final long seed = System.currentTimeMillis();
 		final Random random = new Random(seed);
@@ -64,10 +64,16 @@ public class Visualizer extends Application
 			final Tour path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
 			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getTourLength() + ". Performance: " + path.getPerformance() * 100 + "% validation: " + path.validate());
 			solutions.put(s + "_nn", path);
+
+			// startTime = System.currentTimeMillis();
+			// final Tour improvedPath = new AntsColony(path).reduce(problems.get(s), random);
+			// System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getTourLength() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
+			// solutions.put(s + "_ant", improvedPath);
+
 			startTime = System.currentTimeMillis();
-			final Tour improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
-			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getTourLength() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
-			solutions.put(s, improvedPath);
+			final Tour bestPath = new TwoOpt(path).reduce(problems.get(s), random);
+			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + bestPath.getTourLength() + ". Performance: " + bestPath.getPerformance() * 100 + "% validation: " + bestPath.validate());
+			solutions.put(s, bestPath);
 		}
 		System.out.println("Overall Runtime: " + (System.currentTimeMillis() - overallstarttime) / 1000. + "s");
 
@@ -85,7 +91,7 @@ public class Visualizer extends Application
 			final Group root = new Group();
 			final Canvas canvas = new Canvas(800, 800);
 			final GraphicsContext gc = canvas.getGraphicsContext2D();
-			drawTSP(gc, problems.get(s.replace("_nn", "")), solutions.get(s));
+			drawTSP(gc, problems.get(s.replace("_nn", "").replace("_ant", "")), solutions.get(s));
 			root.getChildren().add(canvas);
 			root.setStyle("-fx-padding: 20 20 20 20;");
 			tab.setContent(root);

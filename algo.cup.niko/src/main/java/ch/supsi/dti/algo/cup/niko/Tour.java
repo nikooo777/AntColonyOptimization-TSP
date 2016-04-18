@@ -53,6 +53,8 @@ public class Tour
 
 	public float getPerformance()
 	{
+		if (this.changed)
+			computeDistance();
 		return (this.distance - this.structure.getBestKnown()) / this.structure.getBestKnown();
 	}
 
@@ -84,10 +86,18 @@ public class Tour
 		for (final int element : this.tour)
 		{
 			if (checked.containsKey(element))
+			{
+				System.err.println("A duplicate node was found! " + element);
 				return false;
+			}
 			checked.put(element, true);
 		}
-		return checked.size() == this.tour.length;
+		if (checked.size() == this.tour.length)
+			return true;
+		else
+			System.err.println("The length of the solution doesn't match the length of the problem! " + checked.size());
+		return false;
+		// return checked.size() == this.tour.length;
 	}
 
 	public int[] getSolution()

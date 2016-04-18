@@ -46,8 +46,15 @@ public class TwoOpt implements TSPAlgorithm
 					{
 						// System.out.println("gain: " + gain);
 						best_gain = gain;
-						best_i = i;
-						best_j = candidate;
+						if (i < candidate)
+						{
+							best_i = i;
+							best_j = candidate;
+						} else
+						{
+							best_i = candidate;
+							best_j = i;
+						}
 						usedCandidates = true;
 						// first_improvement = true;
 						// break;
@@ -96,6 +103,8 @@ public class TwoOpt implements TSPAlgorithm
 
 	private Tour swap(int i, int j)
 	{
+		if (i > j)
+			System.err.println("i > j");
 		// System.out.println("swapping between " + i + " and " + j);
 		// System.out.println(this.tour);
 		// System.out.println("distance before swap: " + this.tour.getDistance());

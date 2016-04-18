@@ -20,6 +20,7 @@ public class TSP
 
 	private final double[][] matrix;
 	private final int[][] distanceMatrix;
+	private final int[][] inverseDistanceMatrix;
 	private final String name;
 	private final Type type;
 	private final int dimension;
@@ -36,6 +37,7 @@ public class TSP
 		this.bestKnown = bestKnown;
 		this.matrix = matrix;
 		this.distanceMatrix = new int[this.dimension][this.dimension];
+		this.inverseDistanceMatrix = new int[this.dimension][this.dimension];
 		this.candidates = new int[this.dimension][CANDIDATES_SIZE];
 		computeDistances();
 		buildCandidateLists();

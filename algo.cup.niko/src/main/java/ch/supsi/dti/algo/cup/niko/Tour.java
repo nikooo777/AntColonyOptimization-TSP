@@ -105,6 +105,42 @@ public class Tour
 		return this.tour;
 	}
 
+	public void swap(int i, int j)
+	{
+		// System.out.println("swapping between " + i + " and " + j);
+		// System.out.println(this.tour);
+		// System.out.println("distance before swap: " + this.tour.getDistance());
+		// 1. take route[0] to route[i-1] and add them in order to new_route
+		// int tourSize = this.structure.getSize();
+		// Tour newTour = new Tour(this.structure);
+		// for (int k = 0; k <= i; k++)
+		// {
+		// newTour.addNode(this.tour.getNode(k));
+		// }
+		// 2. take route[i] to route[k] and add them in reverse order to new_route
+		// System.out.println("pre " + Arrays.toString(this.tour));
+		int dec = 0;
+		int supportNode;
+		for (int k = i + 1; k <= j; k++)
+		{
+			if (k >= j - dec)
+				break;
+			supportNode = this.tour[k];
+			this.tour[k] = this.tour[j - dec];
+			this.tour[j - dec] = supportNode;
+			dec++;
+		}
+		this.changed = true;
+		// 3. take route[k+1] to end and add them in order to new_route
+		// for (int k = j + 1; k < tourSize; k++)
+		// {
+		// newTour.addNode(this.tour.getNode(k));
+		// }
+		// System.out.println("new distance after swap: " + newTour.getDistance());
+		// System.out.println(newTour);
+		// return newTour;
+	}
+
 	public int getIndexOfNode(int candidate)
 	{
 		for (int i = 0; i < this.TSPSize; i++)

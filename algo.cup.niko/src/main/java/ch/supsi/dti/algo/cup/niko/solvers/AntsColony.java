@@ -8,23 +8,25 @@ import ch.supsi.dti.algo.cup.niko.Tour;
 
 public class AntsColony implements TSPAlgorithm
 {
-	private static final int ANTS_POPULATION = 10;
-	private static final double GREEDYNESS = 0.97; // 95% greedy 5% explorer
+	private static final int ANTS_POPULATION = 17;
+	private static final double GREEDYNESS = 0.999; // 95% greedy 5% explorer
 	private int[] antPosition;
 	private boolean[][] visitedNode;
 	private double[][] pheromone;
 	private double defaultPheromone;
-	private static final double ALPHA = 0.9;
-	private static final double RHO = 0.9; // Pheromone persistance
+	private static final double ALPHA = 0.1;
+	private static final double RHO = 0.1; // Pheromone persistance
 	private Tour bestAntEver = null;
 	private Tour tour;
 	private TSP structure;
 	private Random random;
 	private Tour[] antTour;
+	private boolean useCandidates;
 
-	public AntsColony(Tour pathToImprove)
+	public AntsColony(Tour pathToImprove, boolean useCandidates)
 	{
 		this.tour = pathToImprove;
+		this.useCandidates = useCandidates;
 		this.antPosition = new int[ANTS_POPULATION];
 		// booleans are automatically initialized to false
 		this.visitedNode = new boolean[ANTS_POPULATION][pathToImprove.tourSize()];
@@ -35,6 +37,8 @@ public class AntsColony implements TSPAlgorithm
 	@Override
 	public Tour reduce(TSP structure, Random random)
 	{
+		long startTime = System.currentTimeMillis();
+		System.out.println("---------------------------------");
 		this.structure = structure;
 		this.random = random;
 
@@ -45,7 +49,7 @@ public class AntsColony implements TSPAlgorithm
 			Arrays.fill(this.pheromone[i], this.defaultPheromone);
 		}
 
-		for (int niko = 0; niko < 20000; niko++)
+		while (System.currentTimeMillis() - startTime < 170000)
 		{
 			// position ants in a random place on the tour
 			// also initialize a tour for each ant
@@ -71,29 +75,37 @@ public class AntsColony implements TSPAlgorithm
 			int tourLength = Integer.MAX_VALUE;
 			for (int j = 0; j < ANTS_POPULATION; j++)
 			{
+				this.antTour[j] = new TwoOpt(this.antTour[j], true, true).reduce(structure, random);
 				if (this.antTour[j].getTourLength() < tourLength)
 				{
 					// System.out.println("after ants opt " + this.antTour[j].getPerformance() * 100);
 					// long starttime = System.currentTimeMillis();
-					this.antTour[j] = new TwoOpt(this.antTour[j], false).reduce(structure, random);
+					// TODO: try on the best ant only
 					// System.out.println("2opt took: " + (System.currentTimeMillis() - starttime) + "ms");
 					tourLength = this.antTour[j].getTourLength();
 					bestAnt = j;
 				}
+				// this.antTour[bestAnt] = new TwoOpt(this.antTour[bestAnt], true, true).reduce(structure, random);
 				resetEEPROM(j);
 			}
-			// System.out.println("#Ants progress: " + this.antTour[bestAnt].getPerformance() * 100 + "%");
+
 			if (this.bestAntEver == null || this.bestAntEver.getTourLength() > this.antTour[bestAnt].getTourLength())
 			{
 				this.bestAntEver = this.antTour[bestAnt];
-				System.out.println("Ants progress: " + this.bestAntEver.getPerformance() * 100 + "%");
+
+				System.out.println("\tAnts progress: " + this.bestAntEver.getPerformance() * 100 + "%");
+				if (this.bestAntEver.getTourLength() <= structure.getBestKnown())
+				{
+					System.out.println("Best known found in: " + (System.currentTimeMillis() - startTime + "ms"));
+					return this.bestAntEver;
+				}
 			}
+			// System.out.println("#Ants progress: " + this.antTour[bestAnt].getPerformance() * 100 + "%" + " best ever: " + this.bestAntEver.getPerformance() * 100 + "%");
 
 			// let the best ant celebrate by throwing a pheromone-party all over the tour!!
 			// AKA put extra pheromone on the winning tour
 			updateGeneralPheromone(this.antTour[bestAnt]);
 		}
-
 		// finally return the best ant ever
 		return this.bestAntEver;
 	}
@@ -141,20 +153,23 @@ public class AntsColony implements TSPAlgorithm
 	{
 		double maxMixedVal = 0;
 		int bestNode = -1;
-		// candidates version
-		for (int i = 0; i < TSP.CANDIDATES_SIZE; i++)
+		if (this.useCandidates)
 		{
-			int candidateNode = this.structure.getCandidates(currentNode)[i];
-			if (this.visitedNode[ant][candidateNode] || candidateNode == currentNode)
-				continue;
-			if (computeMix(currentNode, candidateNode) > maxMixedVal)
+			// candidates version
+			for (int i = 0; i < TSP.CANDIDATES_SIZE; i++)
 			{
-				maxMixedVal = computeMix(currentNode, candidateNode);
-				bestNode = candidateNode;
+				int candidateNode = this.structure.getCandidates(currentNode)[i];
+				if (this.visitedNode[ant][candidateNode] || candidateNode == currentNode)
+					continue;
+				if (computeMix(currentNode, candidateNode) > maxMixedVal)
+				{
+					maxMixedVal = computeMix(currentNode, candidateNode);
+					bestNode = candidateNode;
+				}
 			}
+			if (bestNode != -1)
+				return bestNode;
 		}
-		if (bestNode != -1)
-			return bestNode;
 
 		for (int i = 0; i < this.tour.tourSize(); i++)
 		{
@@ -194,11 +209,62 @@ public class AntsColony implements TSPAlgorithm
 		// TODO: usare qui le candidates lists
 		// l'arco pescato sarà quello che porta al nodo successivo!
 		double totalMix = 0;
-		// node - mixVal
+		int candidateAnts = 0;
 		double maxMix = 0;
 		int archWithMaxMix = -1;
+		if (this.useCandidates)
+		{
+			// CANDIDATES VERSION
+			double[] candidateTickets = new double[TSP.CANDIDATES_SIZE];
+
+			for (int i = 0; i < TSP.CANDIDATES_SIZE; i++)
+			{
+				int candidateNode = this.structure.getCandidates(currentNode)[i];
+				if (this.visitedNode[ant][candidateNode] || candidateNode == currentNode)
+					continue;
+				candidateTickets[i] = computeMix(currentNode, candidateNode);
+
+				totalMix += candidateTickets[i];
+				candidateAnts++;
+				// if a maximum value is found, then it's updated
+				if (candidateTickets[i] > maxMix)
+				{
+					// update the the max with the new vals
+					archWithMaxMix = candidateNode;
+					maxMix = candidateTickets[i];
+				}
+			}
+			if (candidateAnts > 0)
+			{
+				if (candidateAnts == 1)
+					return archWithMaxMix;
+				// remove the best solution from the total value
+				totalMix -= maxMix;
+				double winningTicket = this.random.nextDouble();
+				double lastTicketAmount = 0;
+
+				// calculate the tickets
+				for (int i = 0; i < TSP.CANDIDATES_SIZE; i++)
+				{
+					int candidateNode = this.structure.getCandidates(currentNode)[i];
+
+					candidateTickets[i] = candidateTickets[i] / totalMix + lastTicketAmount;
+					lastTicketAmount = candidateTickets[i];
+
+					if (winningTicket <= candidateTickets[i])
+					{
+						// System.out.println("WInrar");
+						return candidateNode;
+					}
+				}
+			}
+			// END CANDIDATES VERSION
+			// System.out.println("WHAT NOOOO WAIT");
+			totalMix = 0;
+			candidateAnts = 0;
+			maxMix = 0;
+		}
 		double[] tickets = new double[this.tour.tourSize()];
-		int candidateAnts = 0;
 		// in this iteration we will store the total amount of mix
 		// we will save the best candidate
 		for (int i = 0; i < this.tour.tourSize(); i++)
@@ -232,8 +298,8 @@ public class AntsColony implements TSPAlgorithm
 		for (int i = 0; i < this.tour.tourSize(); i++)
 		{
 			// skip visited nodes and current node and best node (we don't want that one)
-			if (this.visitedNode[ant][i] || i == currentNode || i == archWithMaxMix)
-				continue;
+			// if (this.visitedNode[ant][i] || i == currentNode || i == archWithMaxMix)
+			// continue;
 
 			tickets[i] = tickets[i] / totalMix + lastTicketAmount;
 			lastTicketAmount = tickets[i];
@@ -249,40 +315,32 @@ public class AntsColony implements TSPAlgorithm
 	private void updateLocalPheromone(int origin, int destination)
 	{
 		// 1-persistenza feromone (rho) * Feromone fra nodi A e B (ovvero arco corrente) + DefaultPheromone
-		setPheromone(origin, destination, (1. - RHO) * this.pheromone[origin][destination] + this.defaultPheromone * RHO);
+		setPheromone(origin, destination, (1. - RHO) * getPheromone(origin, destination) + this.defaultPheromone * RHO);
 	}
 
 	private void updateGeneralPheromone(Tour bestTour)
 	{
-		double globallyBestTour;
-		if (this.bestAntEver == null)
-			globallyBestTour = 0;
-		else
-			globallyBestTour = 1. / this.bestAntEver.getTourLength();
+		double globallyBestTour = 1. / this.bestAntEver.getTourLength();
 
 		for (int i = 0; i < bestTour.tourSize(); i++)
 		{
 			int origin = bestTour.getNode(i);
 			int destination = bestTour.getNode((i + 1) % bestTour.tourSize());
-			// TODO: ask if A->B should be equal to B->A!
+			// TODO: ask if A->B should be equal to B->A! - ATM yes
 			setPheromone(origin, destination, (1. - ALPHA) * this.pheromone[origin][destination] + ALPHA * globallyBestTour);
 		}
-		// per ogni arco percorso dalla formica migliore fare:
-		// 1-alpha *Feromone fra nodi A e B (ovvero arco corrente)+ DefaultPheromone
 	}
 
 	private void setPheromone(final int origin, final int destination, final double amount)
 	{
-		int a = (origin < destination) ? origin : destination;
-		int b = (origin < destination) ? destination : origin;
-		this.pheromone[a][b] = amount;
+		// TODO: replace the two conditional IF with two sets, it should be less expensive
+		this.pheromone[origin][destination] = amount;
+		this.pheromone[destination][origin] = amount;
 	}
 
 	private double getPheromone(final int origin, final int destination)
 	{
-		int a = (origin < destination) ? origin : destination;
-		int b = (origin < destination) ? destination : origin;
-		return this.pheromone[a][b];
+		return this.pheromone[origin][destination];
 	}
 
 	/**

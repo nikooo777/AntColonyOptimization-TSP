@@ -10,11 +10,13 @@ public class TwoOpt implements TSPAlgorithm
 	private Tour tour;
 	private TSP structure;
 	private boolean useCandidates;
+	private boolean complete;
 
-	public TwoOpt(Tour pathToImprove, boolean useCandidates)
+	public TwoOpt(Tour pathToImprove, boolean useCandidates, boolean complete)
 	{
 		this.tour = pathToImprove;
 		this.useCandidates = useCandidates;
+		this.complete = complete;
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public class TwoOpt implements TSPAlgorithm
 						}
 					}
 				}
-				if (!usedCandidates)
+				if (this.complete && !usedCandidates)
 				{
 					for (int j = i + 2; j < this.tour.tourSize(); j++)
 					{
@@ -94,8 +96,8 @@ public class TwoOpt implements TSPAlgorithm
 				// double delta = this.tour.getTourLength();
 				// System.out.println("#1 delta: " + delta + " performance: " + this.tour.getPerformance() * 100 + "% length: " + this.tour.getTourLength());
 
-				this.tour = swap(best_i, best_j);
-
+				// this.tour = swap(best_i, best_j);
+				this.tour.swap(best_i, best_j);
 				// delta -= this.tour.getTourLength();
 				// if (delta < 0)
 				// System.err.println("Delta is negative you dumbfuck");

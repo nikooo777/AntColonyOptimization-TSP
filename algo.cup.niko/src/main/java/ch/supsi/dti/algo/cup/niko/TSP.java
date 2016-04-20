@@ -11,7 +11,7 @@ import java.util.Collections;
  */
 public class TSP
 {
-	public static final int CANDIDATES_SIZE = 50;
+	public static final int CANDIDATES_SIZE = 30;
 
 	public enum Type
 	{
@@ -20,7 +20,7 @@ public class TSP
 
 	private final double[][] matrix;
 	private final int[][] distanceMatrix;
-	private final int[][] inverseDistanceMatrix;
+	private final double[][] inverseDistanceMatrix;
 	private final String name;
 	private final Type type;
 	private final int dimension;
@@ -37,7 +37,7 @@ public class TSP
 		this.bestKnown = bestKnown;
 		this.matrix = matrix;
 		this.distanceMatrix = new int[this.dimension][this.dimension];
-		this.inverseDistanceMatrix = new int[this.dimension][this.dimension];
+		this.inverseDistanceMatrix = new double[this.dimension][this.dimension];
 		this.candidates = new int[this.dimension][CANDIDATES_SIZE];
 		computeDistances();
 		buildCandidateLists();
@@ -105,6 +105,7 @@ public class TSP
 			for (int j = 0; j < this.dimension; j++)
 			{
 				this.distanceMatrix[i][j] = (int) Math.round(Math.sqrt(Math.pow(this.matrix[i][0] - this.matrix[j][0], 2) + Math.pow(this.matrix[i][1] - this.matrix[j][1], 2)));
+				this.inverseDistanceMatrix[i][j] = 1. / this.distanceMatrix[i][j];
 			}
 		}
 	}
@@ -128,6 +129,11 @@ public class TSP
 	public int[][] getDistanceMatrix()
 	{
 		return this.distanceMatrix;
+	}
+
+	public double getInverseAbsDistance(final int nodeIndexFrom, final int nodeIndexTo)
+	{
+		return this.inverseDistanceMatrix[nodeIndexFrom][nodeIndexTo];
 	}
 
 	public double[][] getMatrix()

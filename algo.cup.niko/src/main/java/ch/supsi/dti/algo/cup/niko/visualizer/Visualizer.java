@@ -44,18 +44,18 @@ public class Visualizer extends Application
 		final long overallstarttime = System.currentTimeMillis();
 		final Map<String, TSP> problems = new HashMap<>();
 		final Map<String, Tour> solutions = new HashMap<>();
-		problems.put("ch130", TSPParser.parse("ch130.tsp"));
-		problems.put("d198", TSPParser.parse("d198.tsp"));
-		problems.put("eil76", TSPParser.parse("eil76.tsp"));
-		problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
-		problems.put("kroA100", TSPParser.parse("kroA100.tsp"));
-		problems.put("lin318", TSPParser.parse("lin318.tsp"));
-		problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
-		problems.put("pr439", TSPParser.parse("pr439.tsp"));
+		// problems.put("ch130", TSPParser.parse("ch130.tsp"));
+		// problems.put("d198", TSPParser.parse("d198.tsp"));
+		// problems.put("eil76", TSPParser.parse("eil76.tsp"));
+		// problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
+		// problems.put("kroA100", TSPParser.parse("kroA100.tsp"));
+		// problems.put("lin318", TSPParser.parse("lin318.tsp"));
+		// problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
+		// problems.put("pr439", TSPParser.parse("pr439.tsp"));
 		problems.put("rat783", TSPParser.parse("rat783.tsp"));
-		problems.put("u1060", TSPParser.parse("u1060.tsp"));
+		// problems.put("u1060", TSPParser.parse("u1060.tsp"));
 
-		final long seed = System.currentTimeMillis();
+		final long seed = 1;// = System.currentTimeMillis();
 		final Random random = new Random(seed);
 		for (final String s : problems.keySet())
 		{

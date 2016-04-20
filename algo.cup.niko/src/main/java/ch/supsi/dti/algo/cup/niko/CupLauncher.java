@@ -7,9 +7,11 @@ import java.util.Random;
 import ch.supsi.dti.algo.cup.niko.solvers.NearestFirstAlgorithm;
 import ch.supsi.dti.algo.cup.niko.solvers.TwoOpt;
 
-public class CupLauncher {
+public class CupLauncher
+{
 
-	public static void main(final String[] args) {
+	public static void main(final String[] args)
+	{
 		final Map<String, TSP> problems = new HashMap<>();
 		problems.put("ch130", TSPParser.parse("ch130.tsp"));
 		problems.put("d198", TSPParser.parse("d198.tsp"));
@@ -25,16 +27,16 @@ public class CupLauncher {
 		final long seed = System.currentTimeMillis();
 		final Random random = new Random(seed);
 		final long overallstarttime = System.currentTimeMillis();
-		for (final String s : problems.keySet()) {
+		for (final String s : problems.keySet())
+		{
 
 			long startTime = System.currentTimeMillis();
 			final Tour path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
 			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + path.getTourLength() + ". Performance: " + path.getPerformance() * 100 + "% validation: " + path.validate());
 
 			startTime = System.currentTimeMillis();
-			final Tour improvedPath = new TwoOpt(path).reduce(problems.get(s), random);
-			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getTourLength() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: "
-					+ improvedPath.validate());
+			final Tour improvedPath = new TwoOpt(path, true).reduce(problems.get(s), random);
+			System.out.println("\t[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getTourLength() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
 		}
 		System.out.println("Overall Runtime: " + (System.currentTimeMillis() - overallstarttime) / 1000. + "s");
 	}

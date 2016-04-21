@@ -11,7 +11,7 @@ import java.util.Collections;
  */
 public class TSP
 {
-	public static final int CANDIDATES_SIZE = 30;
+	public int CANDIDATES_SIZE = 30;
 
 	public enum Type
 	{
@@ -34,11 +34,12 @@ public class TSP
 		this.comment = comment;
 		this.type = type;
 		this.dimension = dimension;
+		this.CANDIDATES_SIZE = (int) (8 + dimension * 0.8);
 		this.bestKnown = bestKnown;
 		this.matrix = matrix;
 		this.distanceMatrix = new int[this.dimension][this.dimension];
 		this.inverseDistanceMatrix = new double[this.dimension][this.dimension];
-		this.candidates = new int[this.dimension][CANDIDATES_SIZE];
+		this.candidates = new int[this.dimension][this.CANDIDATES_SIZE];
 		computeDistances();
 		buildCandidateLists();
 	}
@@ -81,7 +82,7 @@ public class TSP
 				sortedList.add(new CityDistance(j, this.distanceMatrix[i][j]));
 			}
 			Collections.sort(sortedList);
-			for (int j = 0; j < CANDIDATES_SIZE; j++)
+			for (int j = 0; j < this.CANDIDATES_SIZE; j++)
 			{
 				this.candidates[i][j] = sortedList.get(j).city;
 			}

@@ -26,13 +26,24 @@ public class Tour
 		this.changed = true;
 	}
 
+	/**
+	 * returns the number of cities in the TSP problem
+	 * 
+	 * @return size
+	 */
 	public int tourSize()
 	{
 		return this.TSPSize;
 	}
 
+	/**
+	 * the length of the whole solution (calling this might be expensive if the solution was modified)
+	 * 
+	 * @return solutionLength
+	 */
 	public int getTourLength()
 	{
+		// TODO: add distance when adding nodes with addNode
 		if (this.changed)
 		{
 			computeDistance();
@@ -46,8 +57,8 @@ public class Tour
 		this.distance = 0;
 		for (int i = 0; i < this.TSPSize; i++)
 		{
-			final double adddist = this.structure.getAbsDistance(this.tour[i], this.tour[(i + 1) % (this.TSPSize)]);
-			this.distance += adddist;
+			// final double adddist = this.structure.getAbsDistance(this.tour[i], this.tour[(i + 1) % (this.TSPSize)]);
+			this.distance += this.structure.getAbsDistance(this.tour[i], this.tour[(i + 1) % (this.TSPSize)]);
 		}
 	}
 

@@ -1,0 +1,8 @@
+private static final int ANTS_POPULATION = 10;
+private static final double GREEDYNESS = 0.99999; 
+
+
+
+---->d198
+seed: 1461262130204
+[d198]Runtime: 170038ms. Distance: 15781. Performance: 0.0063371356% validation: true

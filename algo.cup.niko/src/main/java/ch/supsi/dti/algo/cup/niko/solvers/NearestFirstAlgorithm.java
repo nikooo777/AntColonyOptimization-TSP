@@ -15,36 +15,36 @@ public class NearestFirstAlgorithm implements TSPAlgorithm
 		// from a previous study, i found the best nodes from where to start
 		switch (structure.getName())
 		{
-		case "d198":
-			startNode = 167;
-			break;
-		case "kroA100":
-			startNode = 84;
-			break;
-		case "pr439":
-			startNode = 364;
-			break;
-		case "eil76":
-			startNode = 52;
-			break;
-		case "rat783":
-			startNode = 326;
-			break;
-		case "u1060":
-			startNode = 848;
-			break;
-		case "ch130":
-			startNode = 3;
-			break;
-		case "lin318":
-			startNode = 193;
-			break;
-		case "pcb442":
-			startNode = 395;
-			break;
-		case "fl1577":
-			startNode = 162;
-			break;
+		// case "d198":
+		// startNode = 167;
+		// break;
+		// case "kroA100":
+		// startNode = 84;
+		// break;
+		// case "pr439":
+		// startNode = 364;
+		// break;
+		// case "eil76":
+		// startNode = 52;
+		// break;
+		// case "rat783":
+		// startNode = 326;
+		// break;
+		// case "u1060":
+		// startNode = 848;
+		// break;
+		// case "ch130":
+		// startNode = 3;
+		// break;
+		// case "lin318":
+		// startNode = 193;
+		// break;
+		// case "pcb442":
+		// startNode = 395;
+		// break;
+		// case "fl1577":
+		// startNode = 162;
+		// break;
 		default:
 			startNode = random.nextInt(structure.getSize());
 		}
@@ -70,7 +70,7 @@ public class NearestFirstAlgorithm implements TSPAlgorithm
 			nextNode = -1;
 
 			// go through the candidate list of city i
-			for (int j = 0; j < TSP.CANDIDATES_SIZE; j++)
+			for (int j = 0; j < structure.CANDIDATES_SIZE; j++)
 			{
 				final int city = structure.getCandidates(currentNode)[j];
 				if (!visited[city])

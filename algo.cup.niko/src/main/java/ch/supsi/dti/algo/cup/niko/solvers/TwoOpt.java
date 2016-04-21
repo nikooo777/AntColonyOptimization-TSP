@@ -39,7 +39,7 @@ public class TwoOpt implements TSPAlgorithm
 				{
 					usedCandidates = false;
 					// go through the candidates of node i
-					for (int j = 0; j < TSP.CANDIDATES_SIZE; j++)
+					for (int j = 0; j < structure.CANDIDATES_SIZE; j++)
 					{
 						int candidate = structure.getCandidates(i)[j];
 						// given J we want to get the node at J+1. If J is = maxlength of the tour, then the next node is at position 0 of the array

@@ -8,7 +8,7 @@ import ch.supsi.dti.algo.cup.niko.Tour;
 
 public class AntsColony implements TSPAlgorithm
 {
-	private static final int ANTS_POPULATION = 17;
+	private static final int ANTS_POPULATION = 15;
 	private static final double GREEDYNESS = 0.999; // 95% greedy 5% explorer
 	private int[] antPosition;
 	private boolean[][] visitedNode;
@@ -22,6 +22,7 @@ public class AntsColony implements TSPAlgorithm
 	private Random random;
 	private Tour[] antTour;
 	private boolean useCandidates;
+	private int iterations = 0;
 
 	public AntsColony(Tour pathToImprove, boolean useCandidates)
 	{
@@ -51,14 +52,39 @@ public class AntsColony implements TSPAlgorithm
 
 		while (System.currentTimeMillis() - startTime < 170000)
 		{
+			int[] amountVisited = new int[structure.getSize()];
 			// position ants in a random place on the tour
 			// also initialize a tour for each ant
 			for (int i = 0; i < ANTS_POPULATION; i++)
 			{
+				// reset ant's memory if it's not the first tour
+				if (this.iterations > 0)
+					resetEEPROM(i);
+
 				this.antTour[i] = new Tour(structure);
-				// TODO: verify that only 1 ant can be in 1 node
-				int randval = random.nextInt(this.tour.tourSize());
-				this.antTour[i].addNode(setAntPosition(i, randval));
+				if (this.iterations == 0)
+				{
+					// TODO: verify that only 1 ant can be in 1 node
+					int randval = random.nextInt(this.tour.tourSize());
+					this.antTour[i].addNode(setAntPosition(i, randval));
+				} else
+				{
+					// memAnt
+					int randI = random.nextInt(this.tour.tourSize());
+					// store 7% of the best ant already
+					int randJ = randI + random.nextInt(this.tour.tourSize() - randI);
+					System.out.println(randI + " and " + randJ);
+					// for (int j = randI; j < randJ; j++)
+					for (int j = randI; j < randJ; j++)
+					{
+						int candidateNode = this.bestAntEver.getNode(j);
+						this.antTour[i].addNode(setAntPosition(i, candidateNode));
+						amountVisited[i]++;
+						// this.antTour[i].addNode(candidateNode);
+						// this.visitedNode[i][candidateNode] = true;
+						// this.antPosition[i] = candidateNode;
+					}
+				}
 			}
 
 			// let the ants take n steps so to cycle the whole tour
@@ -66,6 +92,9 @@ public class AntsColony implements TSPAlgorithm
 			{
 				for (int j = 0; j < ANTS_POPULATION; j++)
 				{
+					if (i >= (this.tour.tourSize() - 1) - (amountVisited[j] - 1))
+						continue;
+
 					this.antTour[j].addNode(nextStep(j));
 				}
 			}
@@ -75,7 +104,9 @@ public class AntsColony implements TSPAlgorithm
 			int tourLength = Integer.MAX_VALUE;
 			for (int j = 0; j < ANTS_POPULATION; j++)
 			{
-				this.antTour[j] = new TwoOpt(this.antTour[j], true, true).reduce(structure, random);
+				// perform a partial 2opt (only with candidate lists) on each tour
+				this.antTour[j] = new TwoOpt(this.antTour[j], false, true).reduce(structure, random);
+				// find the best tour
 				if (this.antTour[j].getTourLength() < tourLength)
 				{
 					// System.out.println("after ants opt " + this.antTour[j].getPerformance() * 100);
@@ -85,15 +116,15 @@ public class AntsColony implements TSPAlgorithm
 					tourLength = this.antTour[j].getTourLength();
 					bestAnt = j;
 				}
-				// this.antTour[bestAnt] = new TwoOpt(this.antTour[bestAnt], true, true).reduce(structure, random);
-				resetEEPROM(j);
 			}
+			// run a full 2-opt on the best ant
+			this.antTour[bestAnt] = new TwoOpt(this.antTour[bestAnt], true, true).reduce(structure, random);
 
-			if (this.bestAntEver == null || this.bestAntEver.getTourLength() > this.antTour[bestAnt].getTourLength())
+			// update the best ant ever if necessary
+			if (this.bestAntEver == null || tourLength < this.bestAntEver.getTourLength())
 			{
 				this.bestAntEver = this.antTour[bestAnt];
-
-				System.out.println("\tAnts progress: " + this.bestAntEver.getPerformance() * 100 + "%");
+				System.out.println("\tAnts progress (" + this.iterations + "): " + this.bestAntEver.getPerformance() * 100 + "%");
 				if (this.bestAntEver.getTourLength() <= structure.getBestKnown())
 				{
 					System.out.println("Best known found in: " + (System.currentTimeMillis() - startTime + "ms"));
@@ -105,6 +136,7 @@ public class AntsColony implements TSPAlgorithm
 			// let the best ant celebrate by throwing a pheromone-party all over the tour!!
 			// AKA put extra pheromone on the winning tour
 			updateGeneralPheromone(this.antTour[bestAnt]);
+			this.iterations++;
 		}
 		// finally return the best ant ever
 		return this.bestAntEver;
@@ -327,7 +359,7 @@ public class AntsColony implements TSPAlgorithm
 			int origin = bestTour.getNode(i);
 			int destination = bestTour.getNode((i + 1) % bestTour.tourSize());
 			// TODO: ask if A->B should be equal to B->A! - ATM yes
-			setPheromone(origin, destination, (1. - ALPHA) * this.pheromone[origin][destination] + ALPHA * globallyBestTour);
+			setPheromone(origin, destination, (1. - ALPHA) * getPheromone(origin, destination) + ALPHA * globallyBestTour);
 		}
 	}
 

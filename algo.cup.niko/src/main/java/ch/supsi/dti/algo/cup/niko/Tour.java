@@ -146,6 +146,7 @@ public class Tour
 		for (int i = 0; i < this.TSPSize; i++)
 			if (this.tour[i] == candidate)
 				return i;
+		System.err.println(candidate);
 		throw new RuntimeException("Something is wrong in the solution");
 	}
 }

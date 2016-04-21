@@ -23,7 +23,7 @@ public class CupLauncher
 		// problems.put("kroA100", TSPParser.parse("kroA100.tsp"));
 		// problems.put("lin318", TSPParser.parse("lin318.tsp"));
 		// problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
-		// problems.put("pr439", TSPParser.parse("pr439.tsp"));
+		problems.put("pr439", TSPParser.parse("pr439.tsp"));
 		// problems.put("rat783", TSPParser.parse("rat783.tsp"));
 		// problems.put("u1060", TSPParser.parse("u1060.tsp"));
 

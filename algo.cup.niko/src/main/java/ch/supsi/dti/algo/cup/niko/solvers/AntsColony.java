@@ -35,6 +35,14 @@ public class AntsColony implements TSPAlgorithm
 	private int iterations = 0;
 	private Tour bestAntEver = null;
 
+	///////////////////// WRITE SUPPORT/////////////////////////
+	public String getParams()
+	{
+		return "population: " + ANTS_POPULATION + " Greedyness: " + GREEDYNESS + " Memoryness: " + MEMORYNESS + " Beta: " + BETA + " Rho: " + RHO + " Alpha: " + ALPHA;
+	}
+
+	///////////////////// END WRITE SUPPORT/////////////////////////
+
 	public AntsColony(Tour tourToImprove, boolean useCandidates)
 	{
 		this.tour = tourToImprove;

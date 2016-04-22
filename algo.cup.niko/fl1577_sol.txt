@@ -1,0 +1,16 @@
+Seed for fl1577: 1461291216254 with a performance of: 1.9461548833655447%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for fl1577: 1461289020890 with a performance of: 2.000089891680525%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for fl1577: 1461290353138 with a performance of: 2.076497820126747%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for fl1577: 1461289032798 with a performance of: 1.6540069216594004%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for fl1577: 1461290164767 with a performance of: 2.4944941345678457%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for fl1577: 1461290534344 with a performance of: 2.3326891096229043%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for fl1577: 1461290572645 with a performance of: 2.076497820126747%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for fl1577: 1461290165100 with a performance of: 2.278754101307924%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1

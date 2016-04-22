@@ -12,3 +12,33 @@ Seed for pcb442: 1461309383368 with a performance of: 0.35054551183583443%
 population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
 Seed for pcb442: 1461310106710 with a performance of: 0.30721966205837176%
 population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461335041718 with a performance of: 0.3150970892906377%
+population: 30 Greedyness: 0.96 Memoryness: 0.65 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461337209028 with a performance of: 0.3288825869471031%
+population: 30 Greedyness: 0.96 Memoryness: 0.65 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461336487370 with a performance of: 0.30721966205837176%
+population: 30 Greedyness: 0.96 Memoryness: 0.65 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461336308270 with a performance of: 0.3150970892906377%
+population: 30 Greedyness: 0.96 Memoryness: 0.65 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461336671302 with a performance of: 0.3229745165229036%
+population: 30 Greedyness: 0.96 Memoryness: 0.65 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461336852612 with a performance of: 0.30918901886643824%
+population: 30 Greedyness: 0.96 Memoryness: 0.65 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461336312044 with a performance of: 0.35054551183583443%
+population: 30 Greedyness: 0.96 Memoryness: 0.65 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461340465901 with a performance of: 0.34266808460356846%
+population: 9 Greedyness: 0.98 Memoryness: 0.6 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461339566231 with a performance of: 0.30721966205837176%
+population: 9 Greedyness: 0.98 Memoryness: 0.6 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461340829345 with a performance of: 0.30131159163417226%
+population: 9 Greedyness: 0.98 Memoryness: 0.6 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461339027826 with a performance of: 0.2698018827051085%
+population: 9 Greedyness: 0.98 Memoryness: 0.6 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461339209306 with a performance of: 0.30721966205837176%
+population: 9 Greedyness: 0.98 Memoryness: 0.6 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461338669419 with a performance of: 0.3288825869471031%
+population: 9 Greedyness: 0.98 Memoryness: 0.6 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461338850944 with a performance of: 0.30721966205837176%
+population: 9 Greedyness: 0.98 Memoryness: 0.6 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1461341016815 with a performance of: 0.25995509866477606%
+population: 9 Greedyness: 0.98 Memoryness: 0.6 Beta: 2.0 Rho: 0.1 Alpha: 0.1

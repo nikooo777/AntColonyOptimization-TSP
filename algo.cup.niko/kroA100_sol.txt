@@ -1,0 +1,2 @@
+Seed for kroA100: 1461349336916 with a performance of: 0.0%
+population: 17 Greedyness: 0.973 Memoryness: 0.6 Beta: 2.0 Rho: 0.1 Alpha: 0.1

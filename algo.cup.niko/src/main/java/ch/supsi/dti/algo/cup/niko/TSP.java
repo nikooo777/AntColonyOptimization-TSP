@@ -34,7 +34,7 @@ public class TSP
 		this.comment = comment;
 		this.type = type;
 		this.dimension = dimension;
-		this.CANDIDATES_SIZE = (int) (8 + dimension * 0.8);
+		this.CANDIDATES_SIZE = (int) (8 + dimension * 0.08);
 		this.bestKnown = bestKnown;
 		this.matrix = matrix;
 		this.distanceMatrix = new int[this.dimension][this.dimension];

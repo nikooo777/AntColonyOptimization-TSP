@@ -1,0 +1,8 @@
+Seed for u1060: 1461295167512 with a performance of: 1.607807437950146%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for u1060: 1461292677472 with a performance of: 2.289217917481057%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for u1060: 1461304319793 with a performance of: 1.38781047239105%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for u1060: 1461295421290 with a performance of: 1.6484153971101412%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1

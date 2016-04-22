@@ -16,10 +16,10 @@ public class AntsColony implements TSPAlgorithm
 	// private static final double RHO = 0.1;
 	// private static final double ALPHA = 0.1;
 	// for hard problems
-	private static final int ANTS_POPULATION = 13;
+	private static final int ANTS_POPULATION = 5;
 	private static final double GREEDYNESS = 0.99;
-	private static final double MEMORYNESS = 0.70;
-	private static final double BETA = 2;
+	private static final double MEMORYNESS = 0.60;
+	private static final double BETA = 1;
 	private static final double RHO = 0.1;
 	private static final double ALPHA = 0.1;
 
@@ -102,7 +102,7 @@ public class AntsColony implements TSPAlgorithm
 			for (int j = 0; j < ANTS_POPULATION; j++)
 			{
 				// perform a partial 2opt (only with candidate lists) on each tour
-				this.antTour[j] = new TwoOpt(this.antTour[j], true, false).reduce(structure, random);
+				this.antTour[j] = new TwoOpt(this.antTour[j], false, true).reduce(structure, random);
 
 				// find the best tour
 				if (this.antTour[j].getTourLength() < tourLength)
@@ -113,7 +113,7 @@ public class AntsColony implements TSPAlgorithm
 			}
 
 			// run a full 2-opt on the best ant and store again the update value of the tour length
-			this.antTour[bestAnt] = new TwoOpt(this.antTour[bestAnt], true, true).reduce(structure, random);
+			// this.antTour[bestAnt] = new TwoOpt(this.antTour[bestAnt], false, true).reduce(structure, random);
 			tourLength = this.antTour[bestAnt].getTourLength();
 
 			// if the local best ant is better than the globally best ant OR if there is no local best and AND there is still time THEN update it

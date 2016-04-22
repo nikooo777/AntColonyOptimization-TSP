@@ -1,8 +1,13 @@
-private static final int ANTS_POPULATION = 10;
-private static final double GREEDYNESS = 0.99999; 
-
-
-
----->d198
-seed: 1461262130204
-[d198]Runtime: 170038ms. Distance: 15781. Performance: 0.0063371356% validation: true
+ANTS_POPULATION = 17;
+GREEDYNESS = 0.973;
+MEMORYNESS = 0.60;
+BETA = 2;
+RHO = 0.1;
+ALPHA = 0.1;
+--------------------------------------------------------------------
+Seed for ch130: 	1461306457206 with a performance of: 0.0%
+Seed for eil76: 	1461306485134 with a performance of: 0.0%
+Seed for kroA100: 	1461306504382 with a performance of: 0.0%
+Seed for d198: 		1461305685445 with a performance of: 0.0%
+Seed for lin318: 	1461306302686 with a performance of: 0.0%
+Seed for pr439: 	1461308708940 with a performance of: 0.03077870113881194%

@@ -11,3 +11,7 @@ Seed for kroA100: 	1461306504382 with a performance of: 0.0%
 Seed for d198: 		1461305685445 with a performance of: 0.0%
 Seed for lin318: 	1461306302686 with a performance of: 0.0%
 Seed for pr439: 	1461308708940 with a performance of: 0.03077870113881194%
+--------------------------------------------------------------------
+Seed for u1060: 	1461304319793 with a performance of: 1.38781047239105%
+population: 5 Greedyness: 0.99 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+--------------------------------------------------------------------

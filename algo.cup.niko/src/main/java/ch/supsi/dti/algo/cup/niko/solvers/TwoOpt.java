@@ -117,36 +117,4 @@ public class TwoOpt implements TSPAlgorithm
 		final int d = this.tour.getNode((j + 1) % this.tour.tourSize());
 		return this.structure.getAbsDistance(a, c) + this.structure.getAbsDistance(b, d) - this.structure.getAbsDistance(c, d) - this.structure.getAbsDistance(a, b);
 	}
-
-	private Tour swap(int i, int j)
-	{
-		if (i > j)
-			System.err.println("i > j");
-		// System.out.println("swapping between " + i + " and " + j);
-		// System.out.println(this.tour);
-		// System.out.println("distance before swap: " + this.tour.getDistance());
-		// 1. take route[0] to route[i-1] and add them in order to new_route
-		int tourSize = this.structure.getSize();
-		Tour newTour = new Tour(this.structure);
-		for (int k = 0; k <= i; k++)
-		{
-			newTour.addNode(this.tour.getNode(k));
-		}
-		// 2. take route[i] to route[k] and add them in reverse order to new_route
-		int dec = 0;
-		for (int k = i + 1; k <= j; k++)
-		{
-			newTour.addNode(this.tour.getNode(j - dec));
-			dec++;
-		}
-
-		// 3. take route[k+1] to end and add them in order to new_route
-		for (int k = j + 1; k < tourSize; k++)
-		{
-			newTour.addNode(this.tour.getNode(k));
-		}
-		// System.out.println("new distance after swap: " + newTour.getDistance());
-		// System.out.println(newTour);
-		return newTour;
-	}
 }

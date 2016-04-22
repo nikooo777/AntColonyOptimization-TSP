@@ -25,8 +25,8 @@ public class CupLauncher
 		// sligthly harder
 		// problems.put("lin318", TSPParser.parse("lin318.tsp"));
 		// problems.put("d198", TSPParser.parse("d198.tsp"));
-		problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
-		// problems.put("pr439", TSPParser.parse("pr439.tsp"));
+		// problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
+		problems.put("pr439", TSPParser.parse("pr439.tsp"));
 
 		// hard as fuck
 		// problems.put("rat783", TSPParser.parse("rat783.tsp"));
@@ -50,7 +50,7 @@ public class CupLauncher
 			// File solutionFile = new java.io.File(s + "_solution.txt");
 			System.out.println("---->" + s);
 			int localbest = Integer.MAX_VALUE;
-			for (int i = 0; i < 20; i++)
+			for (int i = 0; i < 15; i++)
 			{
 				overallstarttime = System.currentTimeMillis() + parseTime;
 				long seed = System.currentTimeMillis();

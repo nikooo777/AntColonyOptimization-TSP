@@ -16,10 +16,10 @@ public class AntsColony implements TSPAlgorithm
 	// private static final double RHO = 0.1;
 	// private static final double ALPHA = 0.1;
 	// for hard problems
-	private static final int ANTS_POPULATION = 5;
-	private static final double GREEDYNESS = 0.99;
-	private static final double MEMORYNESS = 0.60;
-	private static final double BETA = 1;
+	private static final int ANTS_POPULATION = 30;
+	private static final double GREEDYNESS = 0.96;
+	private static final double MEMORYNESS = 0.65;
+	private static final double BETA = 2;
 	private static final double RHO = 0.1;
 	private static final double ALPHA = 0.1;
 

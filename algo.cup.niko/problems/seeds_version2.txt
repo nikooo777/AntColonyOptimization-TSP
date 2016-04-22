@@ -4,7 +4,7 @@ Seed for eil76: 1461363782016 with a performance of: 0.0% --- population: 15 Gre
 Seed for kroA100: 1461363799489 with a performance of: 0.0% --- population: 15 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
 Seed for lin318: 1461363825818 with a performance of: 0.0% --- population: 15 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
 Seed for d198: 1461366331003 with a performance of: 0.0% --- population: 15 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
-
+Seed for pr439: 1461365667486 with a performance of: 0.0% --- population: 15 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
 
 
 

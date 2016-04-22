@@ -29,7 +29,7 @@ public class CupLauncher
 		// problems.put("pr439", TSPParser.parse("pr439.tsp"));
 
 		// hard as fuck
-		problems.put("rat783", TSPParser.parse("rat783.tsp"));
+		// problems.put("rat783", TSPParser.parse("rat783.tsp"));
 		// problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
 		// problems.put("u1060", TSPParser.parse("u1060.tsp"));
 	}
@@ -47,7 +47,6 @@ public class CupLauncher
 
 		for (final String s : problems.keySet())
 		{
-			// File solutionFile = new java.io.File(s + "_solution.txt");
 			System.out.println("---->" + s);
 			int localbest = Integer.MAX_VALUE;
 			for (int i = 0; i < 15; i++)
@@ -89,7 +88,7 @@ public class CupLauncher
 				if (!Files.exists(Paths.get(s + "_sol.txt")))
 					Files.createFile(Paths.get(s + "_sol.txt"));
 
-				String outString = "Seed for " + s + ": " + solutions.get(s) + " with a performance of: " + ((solutionSizes.get(s) - problems.get(s).getBestKnown()) / (double) problems.get(s).getBestKnown() * 100) + "%" + "\n" + solutionParams.get(s) + "\n";
+				String outString = "Seed for " + s + ": " + solutions.get(s) + " with a performance of: " + ((solutionSizes.get(s) - problems.get(s).getBestKnown()) / (double) problems.get(s).getBestKnown() * 100) + "%" + " --- " + solutionParams.get(s) + "\n";
 				System.out.println(outString);
 
 				Files.write(Paths.get(s + "_sol.txt"), outString.getBytes(), StandardOpenOption.APPEND);

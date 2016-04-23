@@ -1,1 +1,5 @@
 Seed for rat783: 1461375796462 with a performance of: 0.8403361344537815% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461417481531 with a performance of: 0.4996593231887349% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461417485601 with a performance of: 0.5110152168975699% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461427605529 with a performance of: 0.6359300476947536% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461429066669 with a performance of: 0.5337270043152397% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1

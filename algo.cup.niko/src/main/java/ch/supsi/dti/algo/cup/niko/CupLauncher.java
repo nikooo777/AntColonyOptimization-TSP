@@ -14,7 +14,7 @@ import ch.supsi.dti.algo.cup.niko.solvers.NearestFirstAlgorithm;
 public class CupLauncher {
 	public static long overallstarttime;
 
-	private static void parseProblems(Map<String, TSP> problems) {
+	private static void parseProblems(final Map<String, TSP> problems) {
 		// require lower greedyness
 		// problems.put("ch130", TSPParser.parse("ch130.tsp"));
 		// problems.put("eil76", TSPParser.parse("eil76.tsp"));
@@ -24,37 +24,37 @@ public class CupLauncher {
 		// problems.put("lin318", TSPParser.parse("lin318.tsp"));
 		// problems.put("d198", TSPParser.parse("d198.tsp"));
 		// problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
-		 problems.put("pr439", TSPParser.parse("pr439.tsp"));
+		// problems.put("pr439", TSPParser.parse("pr439.tsp"));
 
 		// hard as fuck
-		// problems.put("rat783", TSPParser.parse("rat783.tsp"));
+		problems.put("rat783", TSPParser.parse("rat783.tsp"));
 		// problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
 		// problems.put("u1060", TSPParser.parse("u1060.tsp"));
 	}
 
 	public static void main(final String[] args) {
 		overallstarttime = System.currentTimeMillis();
-		Map<String, TSP> problems = new HashMap<>();
-		Map<String, Long> solutions = new HashMap<>();
-		Map<String, Integer> solutionSizes = new HashMap<>();
-		Map<String, String> solutionParams = new HashMap<>();
+		final Map<String, TSP> problems = new HashMap<>();
+		final Map<String, Long> solutions = new HashMap<>();
+		final Map<String, Integer> solutionSizes = new HashMap<>();
+		final Map<String, String> solutionParams = new HashMap<>();
 
 		parseProblems(problems);
-		long parseTime = System.currentTimeMillis() - overallstarttime;
+		final long parseTime = System.currentTimeMillis() - overallstarttime;
 
 		for (final String s : problems.keySet()) {
 			System.out.println("---->" + s);
 			int localbest = Integer.MAX_VALUE;
-			for (int i = 0; i < 15; i++) {
+			for (int i = 0; i < 120; i++) {
 				overallstarttime = System.currentTimeMillis() + parseTime;
-				long seed = System.currentTimeMillis();
+				final long seed = System.currentTimeMillis();
 				System.out.println("seed: " + seed);
 				final Random random = new Random(seed);
 				long startTime = System.currentTimeMillis();
 				final Tour tour = new NearestFirstAlgorithm().reduce(problems.get(s), random);
 
 				startTime = System.currentTimeMillis();
-				AntsColony ac = new AntsColony(tour, true);
+				final AntsColony ac = new AntsColony(tour, true);
 				final Tour improvedTour = ac.reduce(problems.get(s), random);
 
 				System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime)
@@ -81,14 +81,14 @@ public class CupLauncher {
 				if (!Files.exists(Paths.get(s + "_sol.txt")))
 					Files.createFile(Paths.get(s + "_sol.txt"));
 
-				String outString = "Seed for " + s + ": " + solutions.get(s) + " with a performance of: "
+				final String outString = "Seed for " + s + ": " + solutions.get(s) + " with a performance of: "
 						+ ((solutionSizes.get(s) - problems.get(s).getBestKnown())
 								/ (double) problems.get(s).getBestKnown() * 100)
 						+ "%" + " --- " + solutionParams.get(s) + "\n";
 				System.out.println(outString);
 
 				Files.write(Paths.get(s + "_sol.txt"), outString.getBytes(), StandardOpenOption.APPEND);
-			} catch (IOException e1) {
+			} catch (final IOException e1) {
 				e1.printStackTrace();
 			}
 		}

@@ -45,3 +45,11 @@ Seed for rat783: 1461426284024 with a performance of: 0.8744038155802861% --- po
 Seed for rat783: 1461429896597 with a performance of: 0.7040654099477629% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
 Seed for rat783: 1461428814776 with a performance of: 0.8062684533272768% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
 Seed for rat783: 1461428455674 with a performance of: 0.9766068589598002% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461411422909 with a performance of: 0.8516920281626164% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461409258463 with a performance of: 0.9993186463774698% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461409620899 with a performance of: 0.8289802407449466% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461413055585 with a performance of: 1.0333863275039745% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461415380245 with a performance of: 0.4883034294799001% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461415383551 with a performance of: 0.6245741539859186% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461415564518 with a performance of: 0.8403361344537815% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1461411054762 with a performance of: 0.8289802407449466% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1

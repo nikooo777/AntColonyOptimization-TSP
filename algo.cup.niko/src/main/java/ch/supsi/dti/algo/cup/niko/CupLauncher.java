@@ -23,11 +23,11 @@ public class CupLauncher {
 		// sligthly harder
 		// problems.put("lin318", TSPParser.parse("lin318.tsp"));
 		// problems.put("d198", TSPParser.parse("d198.tsp"));
-		// problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
+		problems.put("pcb442", TSPParser.parse("pcb442.tsp"));
 		// problems.put("pr439", TSPParser.parse("pr439.tsp"));
 
 		// hard as fuck
-		problems.put("rat783", TSPParser.parse("rat783.tsp"));
+		// problems.put("rat783", TSPParser.parse("rat783.tsp"));
 		// problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
 		// problems.put("u1060", TSPParser.parse("u1060.tsp"));
 	}
@@ -45,21 +45,21 @@ public class CupLauncher {
 		for (final String s : problems.keySet()) {
 			System.out.println("---->" + s);
 			int localbest = Integer.MAX_VALUE;
-			for (int i = 0; i < 120; i++) {
+			for (int i = 0; i < 24; i++) {
 				overallstarttime = System.currentTimeMillis() + parseTime;
+				// seed generation
 				final long seed = System.currentTimeMillis();
 				System.out.println("seed: " + seed);
+				// while testing check if this is set to seed
 				final Random random = new Random(seed);
 				long startTime = System.currentTimeMillis();
 				final Tour tour = new NearestFirstAlgorithm().reduce(problems.get(s), random);
 
 				startTime = System.currentTimeMillis();
-				final AntsColony ac = new AntsColony(tour, true);
+				final AntsColony ac = new AntsColony(tour, true, false);
 				final Tour improvedTour = ac.reduce(problems.get(s), random);
 
-				System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime)
-						+ "ms. Distance: " + improvedTour.getTourLength() + ". Performance: "
-						+ improvedTour.getPerformance() * 100 + "% validation: " + improvedTour.validate());
+				System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedTour.getTourLength() + ". Performance: " + improvedTour.getPerformance() * 100 + "% validation: " + improvedTour.validate());
 				if (improvedTour.getTourLength() <= problems.get(s).getBestKnown()) {
 					solutions.put(s, seed);
 					localbest = improvedTour.getTourLength();
@@ -81,10 +81,7 @@ public class CupLauncher {
 				if (!Files.exists(Paths.get(s + "_sol.txt")))
 					Files.createFile(Paths.get(s + "_sol.txt"));
 
-				final String outString = "Seed for " + s + ": " + solutions.get(s) + " with a performance of: "
-						+ ((solutionSizes.get(s) - problems.get(s).getBestKnown())
-								/ (double) problems.get(s).getBestKnown() * 100)
-						+ "%" + " --- " + solutionParams.get(s) + "\n";
+				final String outString = "Seed for " + s + ": " + solutions.get(s) + " with a performance of: " + ((solutionSizes.get(s) - problems.get(s).getBestKnown()) / (double) problems.get(s).getBestKnown() * 100) + "%" + " --- " + solutionParams.get(s) + "\n";
 				System.out.println(outString);
 
 				Files.write(Paths.get(s + "_sol.txt"), outString.getBytes(), StandardOpenOption.APPEND);

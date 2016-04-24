@@ -10,7 +10,7 @@ import ch.supsi.dti.algo.cup.niko.Tour;
 public class AntsColony implements TSPAlgorithm {
 	private static final int ANTS_POPULATION = 6;
 	private static final double GREEDYNESS = 0.985;
-	private static final double MEMORYNESS = 0.6;
+	private static final double MEMORYNESS = 0.8;
 	private static final double BETA = 1;
 	private static final double RHO = 0.1;
 	private static final double ALPHA = 0.1;
@@ -26,6 +26,7 @@ public class AntsColony implements TSPAlgorithm {
 	private double defaultPheromone;
 	private int iterations = 0;
 	private Tour bestAntEver = null;
+	private boolean quickAnt = false;
 
 	///////////////////// WRITE SUPPORT/////////////////////////
 	public String getParams() {
@@ -34,9 +35,10 @@ public class AntsColony implements TSPAlgorithm {
 
 	///////////////////// END WRITE SUPPORT/////////////////////////
 
-	public AntsColony(final Tour tourToImprove, final boolean useCandidates) {
+	public AntsColony(final Tour tourToImprove, final boolean useCandidates, final boolean quickAnt) {
 		this.tour = tourToImprove;
 		this.useCandidates = useCandidates;
+		this.quickAnt = quickAnt;
 		this.antPosition = new int[ANTS_POPULATION];
 		// booleans are automatically initialized to false
 		this.visitedNode = new boolean[ANTS_POPULATION][tourToImprove.tourSize()];
@@ -85,9 +87,12 @@ public class AntsColony implements TSPAlgorithm {
 			int bestAnt = -1;
 			int tourLength = Integer.MAX_VALUE;
 			for (int j = 0; j < ANTS_POPULATION; j++) {
-				// perform a partial 2opt (only with candidate lists) on each tour
-				this.antTour[j] = new TwoOpt(this.antTour[j], false, true).reduce(structure, random);
-
+				// perform a full 2-opt without candidates list
+				// if we're using quickAnts then we will only perform the 2-opt once every 2 iterations to allow more pheromone to be released
+				if (!this.quickAnt)
+					this.antTour[j] = new TwoOpt(this.antTour[j], false, true).reduce(structure, random);
+				else if (this.iterations % 2 == 0)
+					this.antTour[j] = new TwoOpt(this.antTour[j], false, true).reduce(structure, random);
 				// find the best tour
 				if (this.antTour[j].getTourLength() < tourLength) {
 					tourLength = this.antTour[j].getTourLength();
@@ -96,8 +101,11 @@ public class AntsColony implements TSPAlgorithm {
 			}
 
 			// run a full 2-opt on the best ant and store again the update value of the tour length
-			this.antTour[bestAnt] = new TwoOpt(this.antTour[bestAnt], true, true).reduce(structure, random);
-			tourLength = this.antTour[bestAnt].getTourLength();
+			// if we're using quickAnts then we don't have time for this and skip it completely
+			if (!this.quickAnt) {
+				this.antTour[bestAnt] = new TwoOpt(this.antTour[bestAnt], true, true).reduce(structure, random);
+				tourLength = this.antTour[bestAnt].getTourLength();
+			}
 
 			// if the local best ant is better than the globally best ant OR if there is no local best and AND there is still time THEN update it
 			if (this.bestAntEver == null || ((tourLength < this.bestAntEver.getTourLength()) && !isTimeOver())) {
@@ -168,8 +176,7 @@ public class AntsColony implements TSPAlgorithm {
 		if (isAntGreedy()) {
 			this.antPosition[ant] = nextGreedy(ant, origin);
 
-		}
-		else {
+		} else {
 			this.antPosition[ant] = nextExploration(ant, origin);
 		}
 
@@ -466,8 +473,7 @@ public class AntsColony implements TSPAlgorithm {
 			this.antPosition[ant] = position;
 			this.visitedNode[ant][position] = true;
 			return position;
-		}
-		else
+		} else
 			throw new RuntimeException("This node has already been visited by this ant");
 	}
 

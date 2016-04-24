@@ -69,7 +69,7 @@ public class Visualizer extends Application
 
 			startTime = System.currentTimeMillis();
 			System.out.println("---->" + s);
-			final Tour improvedPath = new AntsColony(path, true).reduce(problems.get(s), random);
+			final Tour improvedPath = new AntsColony(path, true, false).reduce(problems.get(s), random);
 			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getTourLength() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
 			solutions.put(s + "_ant", improvedPath);
 			//

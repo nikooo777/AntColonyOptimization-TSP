@@ -153,7 +153,7 @@ public class AntsColony implements TSPAlgorithm {
 	 * @return boolean
 	 */
 	private boolean isTimeOver() {
-		return (System.currentTimeMillis() - CupLauncher.overallstarttime) > 180_000;
+		return (System.currentTimeMillis() - CupLauncher.overallstarttime) > 300_000;
 	}
 
 	/**

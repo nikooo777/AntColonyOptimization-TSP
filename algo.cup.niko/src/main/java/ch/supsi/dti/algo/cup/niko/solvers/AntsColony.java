@@ -9,8 +9,8 @@ import ch.supsi.dti.algo.cup.niko.Tour;
 
 public class AntsColony implements TSPAlgorithm {
 	private static final int ANTS_POPULATION = 6;
-	private static final double GREEDYNESS = 0.985;
-	private static final double MEMORYNESS = 0.8;
+	private static final double GREEDYNESS = 0.990;
+	private static final double MEMORYNESS = 0.9;
 	private static final double BETA = 1;
 	private static final double RHO = 0.1;
 	private static final double ALPHA = 0.1;

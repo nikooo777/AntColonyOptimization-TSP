@@ -29,7 +29,7 @@ public class CupLauncher {
 		// hard as fuck
 		// problems.put("rat783", TSPParser.parse("rat783.tsp"));
 		// problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
-		 problems.put("u1060", TSPParser.parse("u1060.tsp"));
+		problems.put("u1060", TSPParser.parse("u1060.tsp"));
 	}
 
 	public static void main(final String[] args) {
@@ -73,6 +73,8 @@ public class CupLauncher {
 					solutionSizes.put(s, localbest);
 					solutionParams.put(s, ac.getParams());
 				}
+				final String outString = "Best so far: Seed for " + s + ": " + solutions.get(s) + " with a performance of: " + ((solutionSizes.get(s) - problems.get(s).getBestKnown()) / (double) problems.get(s).getBestKnown() * 100) + "%" + " --- " + solutionParams.get(s) + "\n";
+				System.out.println(outString);
 			}
 		}
 		System.out.println("Overall Runtime: " + (System.currentTimeMillis() - overallstarttime) / 1000. + "s");

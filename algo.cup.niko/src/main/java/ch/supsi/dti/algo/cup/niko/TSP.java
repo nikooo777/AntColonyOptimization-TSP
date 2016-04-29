@@ -26,8 +26,7 @@ public class TSP {
 	private final String comment;
 	private final int[][] candidates;
 
-	public TSP(final String name, final String comment, final Type type, final int dimension, final int bestKnown,
-			final double[][] matrix) {
+	public TSP(final String name, final String comment, final Type type, final int dimension, final int bestKnown, final double[][] matrix) {
 		this.name = name;
 		this.comment = comment;
 		this.type = type;
@@ -42,7 +41,7 @@ public class TSP {
 		buildCandidateLists();
 	}
 
-	class CityDistance implements Comparable<CityDistance> {
+	final class CityDistance implements Comparable<CityDistance> {
 		private final int city;
 		private final int distance;
 
@@ -92,9 +91,7 @@ public class TSP {
 	private void computeDistances() {
 		for (int i = 0; i < this.dimension; i++) {
 			for (int j = 0; j < this.dimension; j++) {
-				this.distanceMatrix[i][j] = (int) Math
-						.round(Math.sqrt(Math.pow(this.matrix[i][0] - this.matrix[j][0], 2)
-								+ Math.pow(this.matrix[i][1] - this.matrix[j][1], 2)));
+				this.distanceMatrix[i][j] = (int) Math.round(Math.sqrt(Math.pow(this.matrix[i][0] - this.matrix[j][0], 2) + Math.pow(this.matrix[i][1] - this.matrix[j][1], 2)));
 				this.inverseDistanceMatrix[i][j] = 1. / this.distanceMatrix[i][j];
 			}
 		}

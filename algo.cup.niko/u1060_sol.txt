@@ -21,3 +21,8 @@ Seed for u1060: 1461496506734 with a performance of: 2.933590368327577% --- popu
 Seed for u1060: 1461502926243 with a performance of: 2.5904308013601436% --- population: 6 Greedyness: 0.985 Memoryness: 0.8 Beta: 1.0 Rho: 0.1 Alpha: 0.1
 Seed for u1060: 1461502931705 with a performance of: 2.7256419181236446% --- population: 6 Greedyness: 0.985 Memoryness: 0.8 Beta: 1.0 Rho: 0.1 Alpha: 0.1
 Seed for u1060: 1461497117158 with a performance of: 1.9335635938490099% --- population: 6 Greedyness: 0.985 Memoryness: 0.8 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for u1060: 1461686462064 with a performance of: 1.2584004926504058% --- population: 6 Greedyness: 0.99 Memoryness: 0.9 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for u1060: 1461690381434 with a performance of: 1.3213205172829259% --- population: 6 Greedyness: 0.99 Memoryness: 0.9 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for u1060: 1461685564615 with a performance of: 1.4935696627308184% --- population: 6 Greedyness: 0.99 Memoryness: 0.9 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for u1060: 1461703433366 with a performance of: 1.8536863994573705% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for u1060: 1461698311250 with a performance of: 1.6385980883022302% --- population: 6 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1

@@ -1,2 +1,3 @@
 Seed for ch130: 1461363726620 with a performance of: 0.0% --- population: 15 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
 Seed for ch130: 1461363725912 with a performance of: 0.0% --- population: 15 Greedyness: 0.985 Memoryness: 0.6 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for ch130: 1461770040829 with a performance of: 0.0% --- population: 9 Greedyness: 0.975 Memoryness: 0.6 Beta: 0.1 Rho: 0.1 Alpha: 1.0

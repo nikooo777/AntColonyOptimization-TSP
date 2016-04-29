@@ -27,11 +27,9 @@ import javafx.scene.control.TabPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class Visualizer extends Application
-{
+public class Visualizer extends Application {
 
-	public static void main(final String[] args)
-	{
+	public static void main(final String[] args) {
 
 		launch(args);
 
@@ -39,8 +37,7 @@ public class Visualizer extends Application
 
 	// ALL CODE FROM NOW IS JUST FOR A GRAPHIC RAPPRESENTATION
 	@Override
-	public void start(final Stage primaryStage) throws Exception
-	{
+	public void start(final Stage primaryStage) throws Exception {
 		final long overallstarttime = System.currentTimeMillis();
 		final Map<String, TSP> problems = new HashMap<>();
 		final Map<String, Tour> solutions = new HashMap<>();
@@ -59,8 +56,7 @@ public class Visualizer extends Application
 		final Random random = new Random(seed);
 
 		System.out.println("seed: " + seed);
-		for (final String s : problems.keySet())
-		{
+		for (final String s : problems.keySet()) {
 
 			long startTime = System.currentTimeMillis();
 			final Tour path = new NearestFirstAlgorithm().reduce(problems.get(s), random);
@@ -69,7 +65,7 @@ public class Visualizer extends Application
 
 			startTime = System.currentTimeMillis();
 			System.out.println("---->" + s);
-			final Tour improvedPath = new AntsColony(path, true, false).reduce(problems.get(s), random);
+			final Tour improvedPath = new AntsColony(path, true, false, 1, 0.1, 0.1, 0.975, 0.6, 9).reduce(problems.get(s), random);
 			System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedPath.getTourLength() + ". Performance: " + improvedPath.getPerformance() * 100 + "% validation: " + improvedPath.validate());
 			solutions.put(s + "_ant", improvedPath);
 			//
@@ -83,11 +79,9 @@ public class Visualizer extends Application
 		displaySolutions(primaryStage, problems, solutions);
 	}
 
-	private void displaySolutions(final Stage primaryStage, final Map<String, TSP> problems, final Map<String, Tour> solutions)
-	{
+	private void displaySolutions(final Stage primaryStage, final Map<String, TSP> problems, final Map<String, Tour> solutions) {
 		final TabPane tabPane = new TabPane();
-		for (final String s : solutions.keySet())
-		{
+		for (final String s : solutions.keySet()) {
 
 			final Tab tab = new Tab(s);
 			primaryStage.setTitle(s);
@@ -104,13 +98,11 @@ public class Visualizer extends Application
 		primaryStage.show();
 	}
 
-	private void drawTSP(final GraphicsContext gc, final TSP problem, final Tour solution)
-	{
+	private void drawTSP(final GraphicsContext gc, final TSP problem, final Tour solution) {
 
 		double farthestCoord = 0.0;
 
-		for (int i = 0; i < problem.getSize(); i++)
-		{
+		for (int i = 0; i < problem.getSize(); i++) {
 			if (problem.getX(i) > farthestCoord)
 				farthestCoord = problem.getX(i);
 			if (problem.getY(i) > farthestCoord)
@@ -119,8 +111,7 @@ public class Visualizer extends Application
 
 		final double zoom = 750 / farthestCoord;
 
-		for (int i = 0; i < problem.getSize(); i++)
-		{
+		for (int i = 0; i < problem.getSize(); i++) {
 			gc.setStroke(Color.BLACK);
 			gc.fillOval(problem.getX(i) * zoom, problem.getY(i) * zoom, 5, 5);
 			gc.setStroke(Color.RED);
@@ -130,8 +121,7 @@ public class Visualizer extends Application
 		gc.setStroke(Color.BLUE);
 		final int[] test = solution.getSolution();
 		gc.setLineWidth(1);
-		for (int i = 0; i < test.length - 1; i++)
-		{
+		for (int i = 0; i < test.length - 1; i++) {
 			gc.strokeLine((problem.getX(test[i]) + 0.4) * zoom, (problem.getY(test[i]) + 0.4) * zoom, (problem.getX(test[i + 1]) + 0.4) * zoom, (problem.getY(test[i + 1]) + 0.4) * zoom);
 		}
 		gc.strokeLine((problem.getX(test[test.length - 1]) + 0.4) * zoom, (problem.getY(test[test.length - 1]) + 0.4) * zoom, (problem.getX(test[0]) + 0.4) * zoom, (problem.getY(test[0]) + 0.4) * zoom);

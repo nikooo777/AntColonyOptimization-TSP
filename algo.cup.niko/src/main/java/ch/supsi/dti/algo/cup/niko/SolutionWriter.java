@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class SolutionWriter {
+public class SolutionWriter
+{
 
-	public static void storeSolution(Tour solution, TSP structure) {
-		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(structure.getName() + ".tour"))) {
+	public static void storeSolution(Tour solution, TSP structure)
+	{
+		try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(structure.getName() + ".tour")))
+		{
 			writer.write("NAME : " + structure.getName());
 			writer.newLine();
 			writer.write("COMMENT : Optimum tour for " + structure.getName() + " (" + solution.getTourLength() + ")");
@@ -20,11 +23,16 @@ public class SolutionWriter {
 			writer.write("TOUR_SECTION");
 			writer.newLine();
 			int[] sol = solution.getSolution();
-			for (int i = 0; i < structure.getSize(); i++) {
-				writer.write(sol[i] + '0');
+			for (int i = 0; i < structure.getSize(); i++)
+			{
+				writer.write(sol[i] + "");
 				writer.newLine();
 			}
-		} catch (IOException e) {
+			writer.write("-1");
+			writer.newLine();
+			writer.write("EOF");
+		} catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}

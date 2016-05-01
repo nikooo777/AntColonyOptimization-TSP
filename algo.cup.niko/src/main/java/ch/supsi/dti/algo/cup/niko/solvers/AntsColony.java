@@ -3,7 +3,7 @@ package ch.supsi.dti.algo.cup.niko.solvers;
 import java.util.Arrays;
 import java.util.Random;
 
-import ch.supsi.dti.algo.cup.niko.CupLauncher;
+import ch.supsi.dti.algo.cup.niko.JarLauncher;
 import ch.supsi.dti.algo.cup.niko.TSP;
 import ch.supsi.dti.algo.cup.niko.Tour;
 
@@ -26,7 +26,7 @@ public class AntsColony implements TSPAlgorithm
 	private Random random;
 	private double defaultPheromone;
 	private int iterations = 0;
-	private Tour bestAntEver = null;
+	public static Tour bestAntEver = null;
 	private boolean quickAnt = false;
 
 	///////////////////// WRITE SUPPORT/////////////////////////
@@ -133,22 +133,22 @@ public class AntsColony implements TSPAlgorithm
 			}
 
 			// if the local best ant is better than the globally best ant OR if there is no local best and AND there is still time THEN update it
-			if (this.bestAntEver == null || ((tourLength < this.bestAntEver.getTourLength()) && !isTimeOver()))
+			if (bestAntEver == null || ((tourLength < bestAntEver.getTourLength()) && !isTimeOver()))
 			{
-				this.bestAntEver = this.antTour[bestAnt];
+				bestAntEver = this.antTour[bestAnt];
 
-				System.out.println("\tAnts progress (" + this.iterations + "): " + this.bestAntEver.getPerformance() * 100 + "%");
+				System.out.println("\tAnts progress (" + this.iterations + "): " + bestAntEver.getPerformance() * 100 + "%");
 
 				// if this is the optimal solution then stop the algorithm
 				if (tourLength <= structure.getBestKnown())
 				{
 					System.out.println("Best known found in: " + (System.currentTimeMillis() - startTime + "ms"));
-					return this.bestAntEver;
+					return bestAntEver;
 				}
 			}
 
 			// print the best local ant
-			// System.out.println("#Ants progress: " + this.antTour[bestAnt].getPerformance() * 100 + "%" + " best ever: " + this.bestAntEver.getPerformance() * 100 + "%");
+			// System.out.println("#Ants progress: " + this.antTour[bestAnt].getPerformance() * 100 + "%" + " best ever: " + bestAntEver.getPerformance() * 100 + "%");
 
 			// let the best ant celebrate by throwing a pheromone-party all over the tour!!
 			// AKA put extra pheromone on the winning tour
@@ -160,7 +160,7 @@ public class AntsColony implements TSPAlgorithm
 		}
 
 		// finally return the best ant ever
-		return this.bestAntEver;
+		return bestAntEver;
 	}
 
 	/**
@@ -171,7 +171,7 @@ public class AntsColony implements TSPAlgorithm
 	 */
 	private void updateGeneralPheromone(final Tour tour)
 	{
-		final double globallyBestTourInverse = 1. / this.bestAntEver.getTourLength();
+		final double globallyBestTourInverse = 1. / bestAntEver.getTourLength();
 
 		// go through all the nodes
 		for (int i = 0; i < tour.tourSize(); i++)
@@ -191,7 +191,8 @@ public class AntsColony implements TSPAlgorithm
 	 */
 	private boolean isTimeOver()
 	{
-		return (System.currentTimeMillis() - CupLauncher.overallstarttime) > 180_000;
+		return JarLauncher.timeOver;
+		// return (System.currentTimeMillis() - CupLauncher.overallstarttime) > 260_000;
 	}
 
 	/**
@@ -511,7 +512,7 @@ public class AntsColony implements TSPAlgorithm
 				for (int j = randI; j < randJ; j++)
 				{
 					// get the node we want to restore into memory
-					final int candidateNode = this.bestAntEver.getNode(j);
+					final int candidateNode = bestAntEver.getNode(j);
 					// set the ant position to that node and add it to the tour (we use setAntPosition because it handles all the flags already)
 					this.antTour[i].addNode(setAntPosition(i, candidateNode));
 					// count the cities that the ant memorizes

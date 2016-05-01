@@ -2,3 +2,6 @@ algo.cup.niko/.settings/
 algo.cup.niko/.project
 *.log
 *.class
+algo.cup.niko/target/classes/
+algo.cup.niko/target/maven-status/
+algo.cup.niko/target/surefire-reports/

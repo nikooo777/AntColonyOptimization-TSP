@@ -29,9 +29,9 @@ public class CupLauncher
 		// problems.put("pr439", TSPParser.parse("pr439.tsp"));
 
 		// hard as fuck
-		// problems.put("rat783", TSPParser.parse("rat783.tsp"));
+		problems.put("rat783", TSPParser.parse("rat783.tsp"));
 		// problems.put("fl1577", TSPParser.parse("fl1577.tsp"));
-		problems.put("u1060", TSPParser.parse("u1060.tsp"));
+		// problems.put("u1060", TSPParser.parse("u1060.tsp"));
 	}
 
 	public static void main(final String[] args)
@@ -61,7 +61,7 @@ public class CupLauncher
 				final Tour tour = new NearestFirstAlgorithm().reduce(problems.get(s), random);
 
 				startTime = System.currentTimeMillis();
-				final AntsColony ac = new AntsColony(tour, true, true, 2, 0.1, 0.1, 0.995, 0.0, 15);
+				final AntsColony ac = new AntsColony(tour, true, true, 2, 0.1, 0.1, 0.95, 0.0, 15);
 				final Tour improvedTour = ac.reduce(problems.get(s), random);
 
 				System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedTour.getTourLength() + ". Performance: " + improvedTour.getPerformance() * 100 + "% validation: " + improvedTour.validate());

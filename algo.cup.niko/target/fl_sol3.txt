@@ -1,0 +1,3 @@
+First iteration took: 1145ms
+First iteration took: 1873ms
+First iteration took: 1589ms

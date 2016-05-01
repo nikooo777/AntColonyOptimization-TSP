@@ -24,83 +24,74 @@ public class TwoOpt implements TSPAlgorithm
 	{
 		this.structure = structure;
 		int best_gain = -1;
-		int best_i, best_j;
+		// int best_i, best_j;
 		int gain;
 		int candidate;
 		boolean usedCandidates = false;
 		// double starttime = System.currentTimeMillis();
 		while (best_gain != 0)
 		{
-			best_i = -1;
-			best_j = -1;
+			// best_i = -1;
+			// best_j = -1;
 			best_gain = 0;
 			for (int i = 0; i < this.tour.tourSize() - 2; i++)
 			{
-				if (this.useCandidates)
+				// if (this.useCandidates)
+				// {
+				// usedCandidates = false;
+				// // go through the candidates of node i
+				// for (int j = 0; j < structure.CANDIDATES_SIZE; j++)
+				// {
+				// candidate = structure.getCandidates(i)[j];
+				// // given J we want to get the node at J+1. If J is = maxlength of the tour, then the next node is at position 0 of the array
+				// candidate = this.tour.getIndexOfNode(candidate);
+				// if (candidate == i)
+				// continue;
+				//
+				// gain = computeGain(i, candidate);
+				// if (gain < best_gain)
+				// {
+				// best_gain = gain;
+				// if (i < candidate)
+				// {
+				// best_i = i;
+				// best_j = candidate;
+				// } else
+				// {
+				// best_i = candidate;
+				// best_j = i;
+				// }
+				// usedCandidates = true;
+				// break;
+				// }
+				// }
+				// }
+				// if (this.complete && !usedCandidates)
+				// {
+				for (int j = i + 2; j < this.tour.tourSize(); j++)
 				{
-					usedCandidates = false;
-					// go through the candidates of node i
-					for (int j = 0; j < structure.CANDIDATES_SIZE; j++)
+					gain = computeGain(i, j);
+					if (gain < best_gain)
 					{
-						candidate = structure.getCandidates(i)[j];
-						// given J we want to get the node at J+1. If J is = maxlength of the tour, then the next node is at position 0 of the array
-						candidate = this.tour.getIndexOfNode(candidate);
-						if (candidate == i)
-							continue;
-
-						gain = computeGain(i, candidate);
-						if (gain < best_gain)
-						{
-							best_gain = gain;
-							if (i < candidate)
-							{
-								best_i = i;
-								best_j = candidate;
-							} else
-							{
-								best_i = candidate;
-								best_j = i;
-							}
-							usedCandidates = true;
-							break;
-						}
+						best_gain = gain;
+						// best_i = i;
+						// best_j = j;
+						this.tour.swap(i, j);
+						break;
 					}
 				}
-				if (this.complete && !usedCandidates)
-				{
-					for (int j = i + 2; j < this.tour.tourSize(); j++)
-					{
-						gain = computeGain(i, j);
-						if (gain < best_gain)
-						{
-							best_gain = gain;
-							best_i = i;
-							best_j = j;
-							break;
-						}
-					}
-				}
+				// }
 
-				if (best_gain < 0)
-				{
-					break;
-				}
+				// if (best_gain < 0)
+				// {
+				// break;
+				// }
 			}
-			if (best_gain < 0)
-			{
-				// double delta = this.tour.getTourLength();
-				// System.out.println("#1 delta: " + delta + " performance: " + this.tour.getPerformance() * 100 + "% length: " + this.tour.getTourLength());
-
-				// this.tour = swap(best_i, best_j);
-				this.tour.swap(best_i, best_j);
-				// delta -= this.tour.getTourLength();
-				// if (delta < 0)
-				// System.err.println("Delta is negative you dumbfuck");
-				// System.out.println("#2 delta: " + delta + " performance: " + this.tour.getPerformance() * 100 + "% length: " + this.tour.getTourLength());
-			}
+			// if (best_gain < 0)
+			// {
+			// this.tour.swap(best_i, best_j);
+			// }
 		}
-		// System.out.println("for took: " + (System.currentTimeMillis() - starttime) + "ms");
-		// System.err.println("----------------------------------------------------");
 		return this.tour;
 	}
 

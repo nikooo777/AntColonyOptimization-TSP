@@ -49,7 +49,7 @@ public class CupLauncher
 		{
 			System.out.println("---->" + s);
 			int localbest = Integer.MAX_VALUE;
-			for (int i = 0; i < 300; i++)
+			for (int i = 0; i < 1; i++)
 			{
 				overallstarttime = System.currentTimeMillis() + parseTime;
 				// seed generation
@@ -61,7 +61,7 @@ public class CupLauncher
 				final Tour tour = new NearestFirstAlgorithm().reduce(problems.get(s), random);
 
 				startTime = System.currentTimeMillis();
-				final AntsColony ac = new AntsColony(tour, true, true, 2, 0.1, 0.1, 0.99, 0.0, 12);
+				final AntsColony ac = new AntsColony(tour, true, true, 2, 0.1, 0.1, 0.995, 0.0, 15);
 				final Tour improvedTour = ac.reduce(problems.get(s), random);
 
 				System.out.println("[" + s + "]" + "Runtime: " + (System.currentTimeMillis() - startTime) + "ms. Distance: " + improvedTour.getTourLength() + ". Performance: " + improvedTour.getPerformance() * 100 + "% validation: " + improvedTour.validate());

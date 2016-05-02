@@ -137,7 +137,7 @@ public class AntsColony implements TSPAlgorithm
 			{
 				bestAntEver = this.antTour[bestAnt];
 
-				// System.out.println("\tAnts progress (" + this.iterations + "): " + bestAntEver.getPerformance() * 100 + "%");
+				System.out.println("\tAnts progress (" + this.iterations + "): " + bestAntEver.getPerformance() * 100 + "%");
 
 				// if this is the optimal solution then stop the algorithm
 				if (tourLength <= structure.getBestKnown())

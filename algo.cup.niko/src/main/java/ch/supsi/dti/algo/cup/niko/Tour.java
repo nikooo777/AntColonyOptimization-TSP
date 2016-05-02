@@ -130,16 +130,14 @@ public class Tour
 		// }
 		// 2. take route[i] to route[k] and add them in reverse order to new_route
 		// System.out.println("pre " + Arrays.toString(this.tour));
-		int dec = 0;
 		int supportNode;
-		for (int k = i + 1; k <= j; k++)
+		while (i < j)
 		{
-			if (k >= j - dec)
-				break;
-			supportNode = this.tour[k];
-			this.tour[k] = this.tour[j - dec];
-			this.tour[j - dec] = supportNode;
-			dec++;
+			supportNode = this.tour[i + 1];
+			this.tour[i + 1] = this.tour[j];
+			this.tour[j] = supportNode;
+			i++;
+			j--;
 		}
 		this.changed = true;
 		// 3. take route[k+1] to end and add them in order to new_route

@@ -21,6 +21,7 @@ public class JarLauncher
 	private static double memory;
 	private static int colonySize;
 	private static long seed;
+	private static long runTime;
 
 	public static String getParams()
 	{
@@ -37,17 +38,19 @@ public class JarLauncher
 	 * arg6 = greedyness
 	 * arg7 = memory(ness)
 	 * arg8 = colony size
-	 * arg9 = seed
+	 * arg9 = time
+	 * arg10 = seed
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args)
 	{
-		if (args.length < 9 || args.length > 10)
+		if (args.length < 10 || args.length > 11)
 		{
 			System.err.println("Illegal number of parameters");
 			System.exit(1);
 		}
+		runTime = Long.parseLong(args[9]);
 
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask()
@@ -63,19 +66,30 @@ public class JarLauncher
 				System.out.println("Program terminated");
 				System.exit(0);
 			}
-		}, 179_000);
+		}, runTime);
 
 		String problem = args[0] + ".tsp";
 		useCandidates = Boolean.parseBoolean(args[1]);
 		useQuickAnts = Boolean.parseBoolean(args[2]);
 		alpha = Double.parseDouble(args[3]);
+		if (alpha > 0.15)
+			System.err.println("Alpha is usually 0.1! Don't mistake it with beta.");
+
 		beta = Double.parseDouble(args[4]);
+		if (beta < 1)
+			System.err.println("Beta is usually between 1-2! Don't mistake it with alpha.");
 		rho = Double.parseDouble(args[5]);
+		if (rho > 0.15)
+			System.err.println("rho is usually 0.1!");
+
 		greedyness = Double.parseDouble(args[6]);
+		if (greedyness < 0.89)
+			System.err.println("greedyness is usually over between 0.9 and 1!");
 		memory = Double.parseDouble(args[7]);
+
 		colonySize = Integer.parseInt(args[8]);
-		if (args.length == 10)
-			seed = Long.parseLong(args[9]);
+		if (args.length == 11)
+			seed = Long.parseLong(args[10]);
 		else
 			seed = System.currentTimeMillis();
 		Tproblem = TSPParser.parse(problem);

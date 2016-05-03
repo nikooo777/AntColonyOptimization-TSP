@@ -1,1 +1,0 @@
- while true; do ./fl1577.sh | tail -n 3 | head -n 1 >> fl_sol2.txt; done

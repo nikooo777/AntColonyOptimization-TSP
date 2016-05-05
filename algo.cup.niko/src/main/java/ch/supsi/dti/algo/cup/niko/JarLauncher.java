@@ -63,7 +63,6 @@ public class JarLauncher
 				SolutionWriter.storeSolution(AntsColony.bestAntEver, Tproblem);
 				final String outString = "Seed for " + args[0] + ": " + seed + " with a performance of: " + (AntsColony.bestAntEver.getPerformance() * 100) + "%" + " --- " + getParams();
 				System.out.println(outString);
-				System.out.println("Program terminated");
 				System.exit(0);
 			}
 		}, runTime);

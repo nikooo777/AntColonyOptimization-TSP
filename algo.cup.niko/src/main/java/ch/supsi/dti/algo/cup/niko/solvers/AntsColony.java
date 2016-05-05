@@ -17,7 +17,7 @@ public class AntsColony implements TSPAlgorithm
 	private final double alpha;
 
 	private final Tour tour;
-	private final boolean useCandidates;
+	// private final boolean useCandidates;
 	private final int[] antPosition;
 	private final boolean[][] visitedNode;
 	private final double[][] pheromone;
@@ -25,9 +25,9 @@ public class AntsColony implements TSPAlgorithm
 	private TSP structure;
 	private Random random;
 	private double defaultPheromone;
-	private int iterations = 0;
+	// private int iterations = 0;
 	public static Tour bestAntEver = null;
-	private boolean quickAnt = false;
+	// private boolean quickAnt = false;
 
 	///////////////////// WRITE SUPPORT/////////////////////////
 	public String getParams()
@@ -41,8 +41,8 @@ public class AntsColony implements TSPAlgorithm
 	{
 		this.alpha = alpha;
 		this.tour = tourToImprove;
-		this.useCandidates = useCandidates;
-		this.quickAnt = quickAnt;
+		// this.useCandidates = useCandidates;
+		// this.quickAnt = quickAnt;
 		this.beta = beta;
 		this.rho = rho;
 		this.greedyness = greedyness;
@@ -59,8 +59,8 @@ public class AntsColony implements TSPAlgorithm
 	public Tour reduce(final TSP structure, final Random random)
 	{
 		// memorize the start time
-		final long startTime = System.currentTimeMillis();
-		System.out.println("---------------------------------");
+		// final long startTime = System.currentTimeMillis();
+		// System.out.println("---------------------------------");
 		this.structure = structure;
 		this.random = random;
 
@@ -109,7 +109,7 @@ public class AntsColony implements TSPAlgorithm
 				// else if (this.iterations % 2 == 0)
 				// this.antTour[j] = new TwoOpt(this.antTour[j], false, true).reduce(structure, random);
 				// find the best tour
-				if (this.iterations == 0)
+				if (bestAntEver == null) // if first iteration
 				{
 					this.antTour[j] = new TwoOpt(this.antTour[j], false, true).reduce(structure, random);
 					tourLength = this.antTour[j].getTourLength();
@@ -126,25 +126,27 @@ public class AntsColony implements TSPAlgorithm
 
 			// run a full 2-opt on the best ant and store again the update value of the tour length
 			// if we're using quickAnts then we don't have time for this and skip it completely
-			if (!this.quickAnt)
-			{
-				this.antTour[bestAnt] = new TwoOpt(this.antTour[bestAnt], true, true).reduce(structure, random);
-				tourLength = this.antTour[bestAnt].getTourLength();
-			}
+			// if (!this.quickAnt)
+			// {
+			// this.antTour[bestAnt] = new TwoOpt(this.antTour[bestAnt], true, true).reduce(structure, random);
+			// tourLength = this.antTour[bestAnt].getTourLength();
+			// }
 
 			// if the local best ant is better than the globally best ant OR if there is no local best and AND there is still time THEN update it
 			if (bestAntEver == null || ((tourLength < bestAntEver.getTourLength()) && !isTimeOver()))
 			{
 				bestAntEver = this.antTour[bestAnt];
 
-				System.out.println("\tAnts progress (" + this.iterations + "): " + bestAntEver.getPerformance() * 100 + "%");
+				// the following lines can be disabled for debug purposes
+				// TODO: uncomment for console output
+				// System.out.println("\tAnts progress (" + this.iterations + "): " + bestAntEver.getPerformance() * 100 + "%");
 
 				// if this is the optimal solution then stop the algorithm
-				if (tourLength <= structure.getBestKnown())
-				{
-					System.out.println("Best known found in: " + (System.currentTimeMillis() - startTime + "ms"));
-					return bestAntEver;
-				}
+				// if (tourLength <= structure.getBestKnown())
+				// {
+				// System.out.println("Best known found in: " + (System.currentTimeMillis() - startTime + "ms"));
+				// return bestAntEver;
+				// }
 			}
 
 			// print the best local ant
@@ -153,10 +155,10 @@ public class AntsColony implements TSPAlgorithm
 			// let the best ant celebrate by throwing a pheromone-party all over the tour!!
 			// AKA put extra pheromone on the winning tour
 			updateGeneralPheromone(this.antTour[bestAnt]);
-			if (this.iterations == 0)
-				System.out.println("First iteration took: " + (System.currentTimeMillis() - startTime + "ms"));
+			// if (this.iterations == 0)
+			// System.out.println("First iteration took: " + (System.currentTimeMillis() - startTime + "ms"));
 			// increment the iterations
-			this.iterations++;
+			// this.iterations++;
 		}
 
 		// finally return the best ant ever
@@ -274,63 +276,63 @@ public class AntsColony implements TSPAlgorithm
 		double maxMix = 0;
 		int archWithMaxMix = -1;
 
-		if (this.useCandidates)
-		{
-			// we don't need many tickets and we don't want to reset them later on, so let's create our own array
-			final double[] candidateTickets = new double[this.structure.CANDIDATES_SIZE];
+		// if (this.useCandidates)
+		// {
+		// we don't need many tickets and we don't want to reset them later on, so let's create our own array
+		final double[] candidateTickets = new double[this.structure.CANDIDATES_SIZE];
 
-			// find the candidate with the best mix
+		// find the candidate with the best mix
+		for (int i = 0; i < this.structure.CANDIDATES_SIZE; i++)
+		{
+			final int candidateNode = this.structure.getCandidates(currentNode)[i];
+
+			// don't visit nodes that can't be visited anymore
+			if (this.visitedNode[ant][candidateNode] || candidateNode == currentNode)
+				continue;
+
+			// the amount of mix is stored in the tickets array as NUMERATOR! (it will be later divided by the total mix value)
+			candidateTickets[i] = computeMix(currentNode, candidateNode);
+
+			// store the total mix value
+			totalMix += candidateTickets[i];
+
+			// if a maximum value is found, then it's updated
+			if (candidateTickets[i] > maxMix)
+			{
+				// update the the max with the new vals
+				maxMix = candidateTickets[i];
+				archWithMaxMix = candidateNode;
+			}
+			candidateAnts++;
+		}
+		// if at least 1 candidate is visitable then we draw the winner
+		if (candidateAnts > 0)
+		{
+			// if there is only 1 candidate then don't even bother and return it already
+			if (candidateAnts == 1)
+				return archWithMaxMix;
+
+			// remove the best solution from the pool of possible winners
+			totalMix -= maxMix;
+			final double winningTicket = this.random.nextDouble();
+			double lastTickets = 0;
+
+			// calculate the tickets for each candidate
 			for (int i = 0; i < this.structure.CANDIDATES_SIZE; i++)
 			{
 				final int candidateNode = this.structure.getCandidates(currentNode)[i];
 
-				// don't visit nodes that can't be visited anymore
-				if (this.visitedNode[ant][candidateNode] || candidateNode == currentNode)
-					continue;
+				// take the stored value as numerator and divide by the total. Then add the previous tickets so that we get an incremental value from 0 to 1
+				lastTickets = (candidateTickets[i] / totalMix) + lastTickets;
 
-				// the amount of mix is stored in the tickets array as NUMERATOR! (it will be later divided by the total mix value)
-				candidateTickets[i] = computeMix(currentNode, candidateNode);
-
-				// store the total mix value
-				totalMix += candidateTickets[i];
-
-				// if a maximum value is found, then it's updated
-				if (candidateTickets[i] > maxMix)
+				// if the ticket is less than the amount of tickets this candidate has, then this one is the winner!
+				if (winningTicket <= lastTickets)
 				{
-					// update the the max with the new vals
-					maxMix = candidateTickets[i];
-					archWithMaxMix = candidateNode;
+					return candidateNode;
 				}
-				candidateAnts++;
 			}
-			// if at least 1 candidate is visitable then we draw the winner
-			if (candidateAnts > 0)
-			{
-				// if there is only 1 candidate then don't even bother and return it already
-				if (candidateAnts == 1)
-					return archWithMaxMix;
-
-				// remove the best solution from the pool of possible winners
-				totalMix -= maxMix;
-				final double winningTicket = this.random.nextDouble();
-				double lastTickets = 0;
-
-				// calculate the tickets for each candidate
-				for (int i = 0; i < this.structure.CANDIDATES_SIZE; i++)
-				{
-					final int candidateNode = this.structure.getCandidates(currentNode)[i];
-
-					// take the stored value as numerator and divide by the total. Then add the previous tickets so that we get an incremental value from 0 to 1
-					lastTickets = (candidateTickets[i] / totalMix) + lastTickets;
-
-					// if the ticket is less than the amount of tickets this candidate has, then this one is the winner!
-					if (winningTicket <= lastTickets)
-					{
-						return candidateNode;
-					}
-				}
-				// END CANDIDATES VERSION
-			}
+			// END CANDIDATES VERSION
+			// }
 
 			// at this point the candidates lists failed and we have to fallback to the other method
 			// reset some stuff
@@ -402,28 +404,28 @@ public class AntsColony implements TSPAlgorithm
 		int bestNode = -1;
 
 		// if we use the candidate lists then we can have some fun
-		if (this.useCandidates)
+		// if (this.useCandidates)
+		// {
+		// go through the candidates to find the most interesting node to visit
+		for (int i = 0; i < this.structure.CANDIDATES_SIZE; i++)
 		{
-			// go through the candidates to find the most interesting node to visit
-			for (int i = 0; i < this.structure.CANDIDATES_SIZE; i++)
-			{
-				final int candidateNode = this.structure.getCandidates(currentNode)[i];
-				// if the candidate has been visited already or we're on it then skip (second IF might be unnecessary, but no impact is made)
-				if (this.visitedNode[ant][candidateNode] || candidateNode == currentNode)
-					continue;
+			final int candidateNode = this.structure.getCandidates(currentNode)[i];
+			// if the candidate has been visited already or we're on it then skip (second IF might be unnecessary, but no impact is made)
+			if (this.visitedNode[ant][candidateNode] || candidateNode == currentNode)
+				continue;
 
-				// compute the mix value and save it along with the ant if it's the most interesting so far
-				final double mix = computeMix(currentNode, candidateNode);
-				if (mix > maxMixedVal)
-				{
-					maxMixedVal = mix;
-					bestNode = candidateNode;
-				}
+			// compute the mix value and save it along with the ant if it's the most interesting so far
+			final double mix = computeMix(currentNode, candidateNode);
+			if (mix > maxMixedVal)
+			{
+				maxMixedVal = mix;
+				bestNode = candidateNode;
 			}
-			// unless we found no interesting city to visit, we return it as next city to visit
-			if (bestNode != -1)
-				return bestNode;
 		}
+		// unless we found no interesting city to visit, we return it as next city to visit
+		if (bestNode != -1)
+			return bestNode;
+		// }
 
 		// if candidates lists failed to find a good city to visit, then we fallback to the normal procedure
 		// go through all nodes
@@ -484,14 +486,14 @@ public class AntsColony implements TSPAlgorithm
 		for (int i = 0; i < this.antsPopulation; i++)
 		{
 			// reset ant's memory if it's not the first tour
-			if (this.iterations > 0)
+			if (bestAntEver != null)
 				resetEEPROM(i);
 
 			// initialize a new Tour to store the solutions
 			this.antTour[i] = new Tour(this.structure);
 
 			// if the ant has no memory OR it's the first iteration (no memory at all) then place the ant randomly in the tour
-			if (this.iterations == 0 || !isAntWithMemory())
+			if (bestAntEver == null || !isAntWithMemory())
 			{
 				// TODO: verify that only 1 ant can be in 1 node
 				final int randval = this.random.nextInt(this.tour.tourSize());

@@ -25,7 +25,7 @@ public class SolutionWriter
 			int[] sol = solution.getSolution();
 			for (int i = 0; i < structure.getSize(); i++)
 			{
-				writer.write(sol[i] + "");
+				writer.write((sol[i] + 1) + "");
 				writer.newLine();
 			}
 			writer.write("-1");

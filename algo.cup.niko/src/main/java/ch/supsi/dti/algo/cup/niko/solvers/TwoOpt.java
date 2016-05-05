@@ -9,14 +9,14 @@ public class TwoOpt implements TSPAlgorithm
 {
 	private Tour tour;
 	private TSP structure;
-	private boolean useCandidates;
-	private boolean complete;
+	// private boolean useCandidates;
+	// private boolean complete;
 
 	public TwoOpt(Tour pathToImprove, boolean useCandidates, boolean complete)
 	{
 		this.tour = pathToImprove;
-		this.useCandidates = useCandidates;
-		this.complete = complete;
+		// this.useCandidates = useCandidates;
+		// this.complete = complete;
 	}
 
 	@Override
@@ -26,8 +26,8 @@ public class TwoOpt implements TSPAlgorithm
 		int best_gain = -1;
 		// int best_i, best_j;
 		int gain;
-		int candidate;
-		boolean usedCandidates = false;
+		// int candidate;
+		// boolean usedCandidates = false;
 		// double starttime = System.currentTimeMillis();
 		while (best_gain != 0)
 		{

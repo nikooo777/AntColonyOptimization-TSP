@@ -21,7 +21,6 @@ public class Tour
 
 	public void addNode(final int node)
 	{
-		// System.out.print("-" + node);
 		this.tour[this.index++] = node;
 		this.changed = true;
 	}
@@ -57,7 +56,6 @@ public class Tour
 		this.distance = 0;
 		for (int i = 0; i < this.TSPSize; i++)
 		{
-			// final double adddist = this.structure.getAbsDistance(this.tour[i], this.tour[(i + 1) % (this.TSPSize)]);
 			this.distance += this.structure.getAbsDistance(this.tour[i], this.tour[(i + 1) % (this.TSPSize)]);
 		}
 	}

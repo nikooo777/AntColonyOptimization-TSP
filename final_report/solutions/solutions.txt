@@ -1,0 +1,10 @@
+Seed for eil76: 42 with a performance of: 0.0% --- population: 15 Greedyness: 0.985 Memoryness: 0.0 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for kroA100: 1234567890 with a performance of: 0.0% --- population: 15 Greedyness: 0.985 Memoryness: 0.0 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for ch130: 69 with a performance of: 0.0% --- population: 15 Greedyness: 0.985 Memoryness: 0.0 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for d198: 1337 with a performance of: 0.0% --- population: 18 Greedyness: 0.95 Memoryness: 0.9 Beta: 1.0 Rho: 0.1 Alpha: 0.1
+Seed for lin318: 16071993 with a performance of: 0.0% --- population: 15 Greedyness: 0.955 Memoryness: 0.0 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pr439: 8008135 with a performance of: 0.0% --- population: 25 Greedyness: 0.95 Memoryness: 0.5 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for pcb442: 1462343763254 with a performance of: 0.013785498% --- population: 30 Greedyness: 0.9 Memoryness: 0.96 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for rat783: 1462344733968 with a performance of: 0.124914825% --- population: 15 Greedyness: 0.985 Memoryness: 0.0 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for u1060: 1462378695007 with a performance of: 0.39581606% --- population: 15 Greedyness: 0.996 Memoryness: 0.0 Beta: 2.0 Rho: 0.1 Alpha: 0.1
+Seed for fl1577: 1462116966413 with a performance of: 0.34608296% --- population: 15 Greedyness: 0.995 Memoryness: 0.0 Beta: 0.1 Rho: 0.1 Alpha: 2.0

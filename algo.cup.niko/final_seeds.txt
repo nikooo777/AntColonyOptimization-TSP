@@ -9,15 +9,15 @@ Seed for rat783:  1462344733968 with a performance of: 	0.124914825% --- populat
 Seed for u1060:   1462378695007 with a performance of: 	0.39581606%  --- population: 15 Greedyness: 0.996 Memoryness: 0.0  Beta: 2.0 Rho: 0.1 Alpha: 0.1
 Seed for fl1577:  1462116966413 with a performance of: 	0.34608296%  --- population: 15 Greedyness: 0.995 Memoryness: 0.0  Beta: 0.1 Rho: 0.1 Alpha: 2.0
 
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar eil76 true true 0.1 2 0.1 0.985 0 15 179500 42
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar kroA100 true true 0.1 2 0.1 0.985 0 15 179500 1234567890
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar ch130 true true 0.1 2 0.1 0.985 0 15 179500 69
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar d198 true true 0.1 1 0.1 0.95 0.9 18 179500 1337
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar lin318 true true 0.1 2 0.1 0.955 0 15 179500 16071993
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar pr439 true true 0.1 2 0.1 0.95 0.5 25 179500 8008135
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar pcb442 true true 0.1 2 0.1 0.9 0.96 30 179500 1462343763254
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar rat783 true true 0.1 2 0.1 0.985 0 15 179500 1462344733968
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar u1060 true true 0.1 2 0.1 0.996 0 15 179500 1462378695007 
-java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar fl1577 true true 2 0.1 0.1 0.995 0 15 179500 1462116966413
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar eil76 0.1 2 0.1 0.985 0 15 179500 42
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar kroA100 0.1 2 0.1 0.985 0 15 179500 1234567890
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar ch130 0.1 2 0.1 0.985 0 15 179500 69
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar d198 0.1 1 0.1 0.95 0.9 18 179500 1337
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar lin318 0.1 2 0.1 0.955 0 15 179500 16071993
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar pr439 0.1 2 0.1 0.95 0.5 25 179500 8008135
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar pcb442 0.1 2 0.1 0.9 0.96 30 179500 1462343763254
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar rat783 0.1 2 0.1 0.985 0 15 179500 1462344733968
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar u1060 0.1 2 0.1 0.996 0 15 179500 1462378695007 
+java -jar algo.cup.niko-0.0.1-SNAPSHOT.jar fl1577 2 0.1 0.1 0.995 0 15 179500 1462116966413
 
 average: 0.0880599343
